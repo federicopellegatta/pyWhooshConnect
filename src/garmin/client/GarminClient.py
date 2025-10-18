@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Any, List
 
 from garminconnect import Garmin
@@ -8,6 +8,10 @@ from src.garmin.model.GarminSport import GarminSport
 
 def parse_datetime(date_str: str) -> datetime | None:
     return datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%dT%H:%M:%S.%f") if date_str else None
+
+
+def parse_date(date_str: str) -> date | None:
+    return datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%d").date() if date_str else None
 
 
 class GarminClient(Garmin):
