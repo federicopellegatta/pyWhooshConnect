@@ -1,7 +1,8 @@
 from datetime import date, datetime, timedelta
-from typing import Any
+from typing import Any, Optional
 
 from src.garmin.client.GarminClient import GarminClient, parse_datetime, parse_date
+from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
 from src.garmin.model.garmin_workout_dto import GarminSport, GarminWorkout
 
 
@@ -55,7 +56,7 @@ class GarminTrainingPlanService:
 
         return scheduled_workouts
 
-    def get_power_zones_by_sport(self, sport: GarminSport) -> dict[str, Any]:
+    def get_power_zones_by_sport(self, sport: GarminSport) -> GarminPowerZones:
         """
         Returns the power zones configuration for a specific sport.
 
@@ -66,8 +67,9 @@ class GarminTrainingPlanService:
                 Must be a member of the GarminSport enum (e.g., RUNNING, CYCLING).
 
         Returns:
-            dict[str, Any] | None: A dictionary representing the power zones for the
-            specified sport, or None if no power zones are found for that sport.
+            GarminPowerZones | None: The power zones for the specified sport,
+            or None if no power zones are found for that sport.
         """
         power_zones = self.client.get_power_zones()
-        return next((p for p in power_zones if p["sport"] == sport.name), None)
+
+        return next((GarminPowerZones(**p) for p in power_zones if p["sport"] == sport.name), None)
