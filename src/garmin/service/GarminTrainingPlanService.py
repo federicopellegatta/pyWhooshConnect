@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from typing import Any
 
 from src.garmin.client.GarminClient import GarminClient, parse_datetime, parse_date
-from src.garmin.model.GarminSport import GarminSport
+from src.garmin.model.garmin_workout_dto import GarminSport, GarminWorkout
 
 
 class GarminTrainingPlanService:
@@ -14,7 +14,7 @@ class GarminTrainingPlanService:
             sport: GarminSport,
             from_date: date | datetime | None = None,
             to_date: date | datetime | None = None
-    ) -> list[dict[str, Any]]:
+    ) -> list[GarminWorkout]:
         """
         Get scheduled workouts for a specific sport within a date range.
 
@@ -44,14 +44,14 @@ class GarminTrainingPlanService:
 
             for task in plan_detail.get("taskList", []):
                 task_workout = task["taskWorkout"]
-                if not task_workout or not task_workout.get("workoutId"): # exclude rest days
+                if not task_workout or not task_workout.get("workoutId"):  # exclude rest days
                     continue
 
                 workout_date = parse_date(task["calendarDate"]) or parse_datetime(task_workout["scheduledDate"]).date()
 
                 if from_date <= workout_date <= to_date:
                     workout = self.client.get_workout_by_id(task_workout["workoutId"])
-                    scheduled_workouts.append(workout)
+                    scheduled_workouts.append(GarminWorkout(**workout))
 
         return scheduled_workouts
 

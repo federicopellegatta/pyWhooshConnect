@@ -3,7 +3,7 @@ from typing import Any, List
 
 from garminconnect import Garmin
 
-from src.garmin.model.GarminSport import GarminSport
+from src.garmin.model.garmin_workout_dto import GarminSport
 
 
 def parse_datetime(date_str: str) -> datetime | None:
