@@ -53,20 +53,3 @@ class GarminClient(Garmin):
     def get_power_zones(self) -> List[dict[str, Any]]:
         """Returns all available power zones"""
         return self.connectapi("/biometric-service/powerZones/sports/all")
-
-    def get_power_zones_by_sport(self, sport: GarminSport) -> dict[str, Any]:
-        """
-        Returns the power zones configuration for a specific sport.
-
-        Retrieves all available power zones and filters them by the given sport.
-
-        Args:
-            sport (GarminSport): The sport for which to retrieve power zones.
-                Must be a member of the GarminSport enum (e.g., RUNNING, CYCLING).
-
-        Returns:
-            dict[str, Any] | None: A dictionary representing the power zones for the
-            specified sport, or None if no power zones are found for that sport.
-        """
-        power_zones = self.get_power_zones()
-        return next((p for p in power_zones if p["sport"] == sport.name), None)
