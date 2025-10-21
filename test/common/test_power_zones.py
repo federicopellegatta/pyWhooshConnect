@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from src.common.model.power_zones import PowerZones
@@ -20,7 +22,7 @@ class TestPowerZones:
         """Test that Z7 has ceiling of 2.0."""
         floor, ceiling = zones.get_zone(7)
         assert floor == 1.50
-        assert ceiling == 2.0
+        assert ceiling == math.inf
 
     def test_get_zone_invalid_raises_error(self, zones):
         """Test that invalid zone numbers raise ValueError."""
@@ -46,7 +48,7 @@ class TestPowerZones:
         assert zones.get_zone_by_power(160) == 3  # 0.80 FTP
         assert zones.get_zone_by_power(200) == 4  # 1.00 FTP
         assert zones.get_zone_by_power(300) == 7  # 1.50 FTP
-        assert zones.get_zone_by_power(-1) == 0  # Below Z1
+        assert zones.get_zone_by_power(-10) == 0  # Below Z1
 
     def test_zone_floors_returns_all_zones(self, zones):
         """Test that zone_floors returns dictionary with all 7 zones."""

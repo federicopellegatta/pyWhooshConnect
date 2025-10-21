@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 
 
@@ -30,7 +31,7 @@ class PowerZones:
             zone: Zone number (1-7)
 
         Returns:
-            Tuple of (floor_ratio, ceiling_ratio) for the zone
+            Tuple of (floor_ratio, ceiling_ratio) for the zone. For Z7, ceiling_watts is math.inf
 
         Raises:
             ValueError: If zone is not between 1 and 7
@@ -44,26 +45,26 @@ class PowerZones:
         if zone < 7:
             ceiling_ratio = zone_floors[zone + 1]
         else:
-            # Z7 has no upper limit, use a reasonable maximum
-            ceiling_ratio = 2.0
+            # Z7 has no upper limit
+            ceiling_ratio = math.inf
 
         return floor_ratio, ceiling_ratio
 
-    def get_absolute_zone(self, zone: int) -> tuple[int, int]:
+    def get_absolute_zone(self, zone: int) -> tuple[float, float]:
         """Get the absolute power range (in watts) for a specific zone.
 
         Args:
             zone: Zone number (1-7)
 
         Returns:
-            Tuple of (floor_watts, ceiling_watts) for the zone
+            Tuple of (floor_watts, ceiling_watts) for the zone. For Z7, ceiling_watts is math.inf
 
         Raises:
             ValueError: If zone is not between 1 and 7
         """
         floor_ratio, ceiling_ratio = self.get_zone(zone)
-        floor_watts = int(floor_ratio * self.ftp)
-        ceiling_watts = int(ceiling_ratio * self.ftp)
+        floor_watts = float(int(floor_ratio * self.ftp))
+        ceiling_watts = math.inf if ceiling_ratio == math.inf else float(int(ceiling_ratio * self.ftp))
 
         return floor_watts, ceiling_watts
 
