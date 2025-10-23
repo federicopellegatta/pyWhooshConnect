@@ -2,7 +2,12 @@ from abc import ABC, abstractmethod
 from typing import TypeVar
 
 from src.common.mapper.base import BaseMapper
-from src.common.model.generic_workout import GenericWorkout, GenericAtomicStep, GenericStepWithIntervals
+from src.common.model.generic_workout import (
+    GenericWorkout,
+    GenericAtomicStep,
+    GenericStepWithIntervals,
+    GenericIntervalStep
+)
 from src.common.model.generic_workout_step import GenericWorkoutStep
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
@@ -36,7 +41,22 @@ class GarminToGenericAtomicStepMapper(GarminToGenericStepMapper[GenericAtomicSte
 
         return GenericAtomicStep(
             step_id=garmin.stepOrder,
-            _duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
+            duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
+            power_zone=garmin.zoneNumber,
+            type=garmin.stepType.stepTypeKey.lower(),
+            description=garmin.description,
+            rpm=None
+        )
+
+
+class GarminToGenericIntervalStepMapper(GarminToGenericStepMapper[GenericIntervalStep]):
+    def map(self, garmin: GarminWorkoutStep) -> GenericIntervalStep:
+        if garmin.workoutSteps:
+            raise ValueError("Garmin step has intervals. You should use GarminToGenericStepWithIntervals")
+
+        return GenericIntervalStep(
+            step_id=garmin.stepId,
+            duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
             power_zone=garmin.zoneNumber,
             type=garmin.stepType.stepTypeKey.lower(),
             description=garmin.description,
@@ -45,13 +65,13 @@ class GarminToGenericAtomicStepMapper(GarminToGenericStepMapper[GenericAtomicSte
 
 
 class GarminToGenericStepWithIntervals(GarminToGenericStepMapper[GenericStepWithIntervals]):
-    atomic_step_mapper = GarminToGenericAtomicStepMapper()
+    atomic_step_mapper = GarminToGenericIntervalStepMapper()
 
     def map(self, garmin: GarminWorkoutStep) -> GenericStepWithIntervals:
         if not garmin.workoutSteps:
             raise ValueError("Garmin step has not intervals. You should use GarminToGenericAtomicStepMapper")
 
-        return GenericStepWithIntervals(
+        step = GenericStepWithIntervals(
             step_id=garmin.stepOrder,
             type=garmin.stepType.stepTypeKey.lower(),
             description=garmin.description,
@@ -61,6 +81,8 @@ class GarminToGenericStepWithIntervals(GarminToGenericStepMapper[GenericStepWith
                 for interval in garmin.workoutSteps
             ]
         )
+        step.reindex_steps()
+        return step
 
     @staticmethod
     def _get_number_of_iterations(garmin: GarminWorkoutStep):
@@ -74,7 +96,7 @@ class GarminToGenericWorkoutMapper(BaseMapper[GarminWorkout, GenericWorkout]):
     atomic_step_mapper = GarminToGenericAtomicStepMapper()
 
     def map(self, garmin: GarminWorkout) -> GenericWorkout:
-        return GenericWorkout(
+        workout = GenericWorkout(
             name=garmin.workoutName,
             description=garmin.description,
             sport=garmin.sportType.sportTypeKey.lower(),
@@ -84,6 +106,8 @@ class GarminToGenericWorkoutMapper(BaseMapper[GarminWorkout, GenericWorkout]):
                 for step in segment.workoutSteps
             ]
         )
+        workout.reindex_steps()
+        return workout
 
     def _select_step_mapper(self, garmin_step: GarminWorkoutStep) -> GarminToGenericStepMapper:
         if garmin_step.workoutSteps:

@@ -18,7 +18,7 @@ class StepContainerMixin(ABC, Generic[T]):
     def add_step(self, step: T) -> None:
         """Add a new step at the end of the list and reindex step_ids."""
         self.steps.append(step)
-        self._reindex_steps()
+        self.reindex_steps()
 
     def remove_step(self, step_id: int | None = None) -> None:
         """
@@ -34,9 +34,9 @@ class StepContainerMixin(ABC, Generic[T]):
             self.steps.pop()
         else:
             raise ValueError("No steps to remove.")
-        self._reindex_steps()
+        self.reindex_steps()
 
-    def _reindex_steps(self) -> None:
+    def reindex_steps(self) -> None:
         """Reassign sequential step_ids starting from 1."""
         for idx, item in enumerate(self.steps, start=1):
             item.step_id = idx
