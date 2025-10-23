@@ -15,7 +15,6 @@ def basic_interval_step():
     """Create a basic interval step of 60 seconds."""
     return GenericIntervalStep(
         step_id=1,
-        interval_step_id=1,
         duration_in_seconds=60,
         power_zone=1,
         type="normal"
@@ -27,7 +26,6 @@ def second_interval_step():
     """Create a second interval step of 120 seconds."""
     return GenericIntervalStep(
         step_id=2,
-        interval_step_id=2,
         duration_in_seconds=120,
         power_zone=2,
         type="normal"
