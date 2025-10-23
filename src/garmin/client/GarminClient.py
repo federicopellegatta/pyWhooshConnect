@@ -50,6 +50,11 @@ class GarminClient(Garmin):
         url = f"/trainingplan-service/trainingplan/phased/{training_plan_id}"
         return self.connectapi(url)
 
+    def get_scheduled_workout_by_id(self, scheduled_workout_id: int) -> dict[str, Any]:
+        """Returns scheduled workout by id"""
+        url = f"/workout-service/schedule/{scheduled_workout_id}"
+        return self.connectapi(url)
+
     def get_power_zones(self) -> List[dict[str, Any]]:
         """Returns all available power zones"""
         return self.connectapi("/biometric-service/powerZones/sports/all")
