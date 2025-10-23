@@ -1,9 +1,9 @@
 from datetime import date, datetime, timedelta
-from typing import Any, Optional
 
 from src.garmin.client.GarminClient import GarminClient, parse_datetime, parse_date
 from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
-from src.garmin.model.garmin_workout_dto import GarminSport, GarminWorkout
+from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
+from src.garmin.model.garmin_workout_dto import GarminSport
 
 
 class GarminTrainingPlanService:
@@ -15,7 +15,7 @@ class GarminTrainingPlanService:
             sport: GarminSport,
             from_date: date | datetime | None = None,
             to_date: date | datetime | None = None
-    ) -> list[GarminWorkout]:
+    ) -> list[GarminScheduledWorkout]:
         """
         Get scheduled workouts for a specific sport within a date range.
 
@@ -51,8 +51,8 @@ class GarminTrainingPlanService:
                 workout_date = parse_date(task["calendarDate"]) or parse_datetime(task_workout["scheduledDate"]).date()
 
                 if from_date <= workout_date <= to_date:
-                    workout = self.client.get_workout_by_id(task_workout["workoutId"])
-                    scheduled_workouts.append(GarminWorkout(**workout))
+                    scheduled_workout = self.client.get_scheduled_workout_by_id(task_workout["workoutScheduleId"])
+                    scheduled_workouts.append(GarminScheduledWorkout(**scheduled_workout))
 
         return scheduled_workouts
 
