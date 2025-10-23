@@ -6,31 +6,45 @@ import pytest
 from src.common.model.generic_workout import (
     GenericAtomicStep,
     GenericStepWithIntervals,
-    GenericIntervalStep
+    GenericIntervalStep,
+    GenericWorkout
 )
 from src.garmin.mapper.garmin_to_generic import GarminToGenericWorkoutMapper
-from src.garmin.model.garmin_workout_dto import GarminWorkout
+from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
 
-@pytest.fixture
-def garmin_workout_json_path():
-    """Path to the Garmin workout JSON test file."""
-    return Path(__file__).parents[2] / "resources" / "garmin_workout.json"
+def json_path(filename: str) -> Path:
+    return Path(__file__).parents[2] / "resources" / filename
 
 
-@pytest.fixture
-def garmin_workout(garmin_workout_json_path):
+def load_garmin_workout(filename: str):
+    with open(json_path(filename), encoding="utf-8") as f:
+        data = json.load(f)
+    return GarminWorkout(**data)
+
+
+@pytest.fixture(params=["garmin_workout.json", "garmin_z2_workout.json"])
+def garmin_workout(request):
     """Load GarminWorkout from JSON file."""
-    with open(garmin_workout_json_path, encoding="utf-8") as f:
-        workout_data = json.load(f)
-    return GarminWorkout(**workout_data)
+    return load_garmin_workout(request.param)
 
 
 @pytest.fixture
 def generic_workout(garmin_workout):
     """Map GarminWorkout to GenericWorkout."""
-    mapper = GarminToGenericWorkoutMapper()
-    return mapper.map(garmin_workout)
+    return GarminToGenericWorkoutMapper().map(garmin_workout)
+
+
+def _get_step_with_intervals(garmin: GarminWorkout, generic: GenericWorkout) -> tuple[None, None] | tuple[
+    GarminWorkoutStep, GenericStepWithIntervals]:
+    garmin_step_with_intervals = next((s for s in garmin.workoutSegments[0].workoutSteps if s.workoutSteps), None)
+    if not garmin_step_with_intervals:
+        return None, None
+
+    generic_step_with_intervals = generic.get_step_by_id(garmin_step_with_intervals.stepOrder)
+    assert isinstance(generic_step_with_intervals, GenericStepWithIntervals)
+
+    return garmin_step_with_intervals, generic_step_with_intervals
 
 
 class TestGarminToGenericWorkoutMapper:
@@ -56,24 +70,21 @@ class TestGarminToGenericWorkoutMapper:
 
     def test_step_with_intervals_mapping(self, garmin_workout, generic_workout):
         """Test that a step with intervals is correctly mapped."""
-        garmin_step_with_intervals = garmin_workout.workoutSegments[0].workoutSteps[8]
-        generic_step_with_intervals = generic_workout.get_step_by_id(
-            garmin_step_with_intervals.stepOrder
-        )
+        garmin_step_with_intervals, generic_step_with_intervals = _get_step_with_intervals(garmin_workout,
+                                                                                           generic_workout)
+        if not garmin_step_with_intervals:
+            return
 
-        assert isinstance(generic_step_with_intervals, GenericStepWithIntervals)
         assert generic_step_with_intervals.step_id == garmin_step_with_intervals.stepOrder
         assert generic_step_with_intervals.iterations == garmin_step_with_intervals.numberOfIterations
         assert len(generic_step_with_intervals.steps) == len(garmin_step_with_intervals.workoutSteps)
 
     def test_interval_step_mapping(self, garmin_workout, generic_workout):
         """Test that individual interval steps within a repeat block are correctly mapped."""
-        garmin_step_with_intervals = garmin_workout.workoutSegments[0].workoutSteps[8]
-        generic_step_with_intervals = generic_workout.get_step_by_id(
-            garmin_step_with_intervals.stepOrder
-        )
-
-        assert isinstance(generic_step_with_intervals, GenericStepWithIntervals)
+        garmin_step_with_intervals, generic_step_with_intervals = _get_step_with_intervals(garmin_workout,
+                                                                                           generic_workout)
+        if not garmin_step_with_intervals:
+            return
 
         garmin_interval_step = garmin_step_with_intervals.workoutSteps[1]
         generic_interval_step = generic_step_with_intervals.steps[1]

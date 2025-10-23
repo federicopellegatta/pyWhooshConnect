@@ -10,8 +10,8 @@ from src.common.model.workout_step_utils import StepContainerMixin
 class GenericAtomicStep(GenericWorkoutStep):
     step_id: int
     duration_in_seconds: int
-    power_zone: int
     type: str
+    power_zone: Optional[int] = None # None means free ride
     description: Optional[str] = None
     rpm: Optional[int] = None
 
