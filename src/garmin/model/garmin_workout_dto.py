@@ -94,7 +94,8 @@ class GarminWorkoutStep:
     zoneNumber: Optional[int] = None
     strokeType: Optional[GarminStrokeType] = None
     equipmentType: Optional[GarminEquipmentType] = None
-    workoutSteps: Optional[List["GarminWorkoutStep"]] = None
+    numberOfIterations: Optional[int] = None
+    workoutSteps: Optional[List[GarminWorkoutStep]] = None
 
 
 @dataclass

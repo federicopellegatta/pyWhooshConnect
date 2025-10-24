@@ -13,7 +13,7 @@ from src.garmin.service.garmin_training_plan_service import GarminTrainingPlanSe
 
 def json_path(filename: str) -> Path:
     """Path to the Garmin workout JSON test file."""
-    return Path(__file__).parents[2] / "resources" / filename
+    return Path(__file__).parents[2] / "resources" / "garmin" / filename
 
 
 def garmin_workout(filename: str) -> GarminWorkout:

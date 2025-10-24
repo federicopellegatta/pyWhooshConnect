@@ -1,0 +1,114 @@
+{
+  "workoutId": 1324746481,
+  "ownerId": 85750125,
+  "workoutName": "Zona 2 Aerobica",
+  "description": "Allenamento di 2 ore\n- Esegui un riscaldamento facile.\n- Pedala nella zona 2.\n- Pedala per 5 minuti.\n\nAll'inizio della stagione, questo allenamento può essere praticato sulla bici o combinando diverse attività, ad esempio lo sci di fondo o l'escursionismo. Quando si avvicina il giorno dell'evento o della gara è importante che questo allenamento venga eseguito sulla bici.",
+  "updatedDate": "2025-09-09T20:28:38.0",
+  "createdDate": "2025-09-09T20:28:38.0",
+  "sportType": {
+    "sportTypeId": 2,
+    "sportTypeKey": "cycling",
+    "displayOrder": 2
+  },
+  "subSportType": null,
+  "trainingPlanId": 41930814,
+  "author": null,
+  "sharedWithUsers": null,
+  "estimatedDurationInSecs": 7200,
+  "estimatedDistanceInMeters": null,
+  "workoutSegments": [
+    {
+      "segmentOrder": 1,
+      "sportType": {
+        "sportTypeId": 2,
+        "sportTypeKey": "cycling",
+        "displayOrder": 2
+      },
+      "poolLengthUnit": null,
+      "poolLength": null,
+      "avgTrainingSpeed": null,
+      "estimatedDurationInSecs": null,
+      "estimatedDistanceInMeters": null,
+      "estimatedDistanceUnit": null,
+      "estimateType": null,
+      "description": null,
+      "workoutSteps": [
+        {
+          "type": "ExecutableStepDTO",
+          "stepId": 10970569055,
+          "stepOrder": 1,
+          "stepType": {
+            "stepTypeId": 3,
+            "stepTypeKey": "interval",
+            "displayOrder": 3
+          },
+          "childStepId": null,
+          "description": null,
+          "endCondition": {
+            "conditionTypeId": 2,
+            "conditionTypeKey": "time",
+            "displayOrder": 2,
+            "displayable": true
+          },
+          "endConditionValue": 7200.0,
+          "preferredEndConditionUnit": null,
+          "endConditionCompare": null,
+          "targetType": {
+            "workoutTargetTypeId": 1,
+            "workoutTargetTypeKey": "no.target",
+            "displayOrder": 1
+          },
+          "targetValueOne": null,
+          "targetValueTwo": null,
+          "targetValueUnit": null,
+          "zoneNumber": null,
+          "secondaryTargetType": null,
+          "secondaryTargetValueOne": null,
+          "secondaryTargetValueTwo": null,
+          "secondaryTargetValueUnit": null,
+          "secondaryZoneNumber": null,
+          "endConditionZone": null,
+          "strokeType": {
+            "strokeTypeId": 0,
+            "strokeTypeKey": null,
+            "displayOrder": 0
+          },
+          "equipmentType": {
+            "equipmentTypeId": 0,
+            "equipmentTypeKey": null,
+            "displayOrder": 0
+          },
+          "category": null,
+          "exerciseName": null,
+          "workoutProvider": null,
+          "providerExerciseSourceId": null,
+          "weightValue": null,
+          "weightUnit": null
+        }
+      ]
+    }
+  ],
+  "poolLength": null,
+  "poolLengthUnit": null,
+  "locale": null,
+  "workoutProvider": null,
+  "workoutSourceId": null,
+  "uploadTimestamp": null,
+  "atpPlanId": null,
+  "consumer": null,
+  "consumerName": null,
+  "consumerImageURL": null,
+  "consumerWebsiteURL": null,
+  "workoutNameI18nKey": "wk_name_5aec7b19-0158-4467-a360-1ef7c2a76ac5",
+  "descriptionI18nKey": "wk_descr_40cbfb6e-861e-45d7-8e41-e233aeed1dd1",
+  "avgTrainingSpeed": 0.0,
+  "estimateType": null,
+  "estimatedDistanceUnit": {
+    "unitId": null,
+    "unitKey": null,
+    "factor": null
+  },
+  "workoutThumbnailUrl": "https://connect.garmin.com/chart-service/workout?data=f,120,",
+  "isSessionTransitionEnabled": null,
+  "shared": false
+}
