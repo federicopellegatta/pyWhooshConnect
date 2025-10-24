@@ -9,6 +9,7 @@ from src.common.model.generic_workout import (
     GenericIntervalStep
 )
 from src.common.model.generic_workout_step import GenericWorkoutStep
+from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
 TStepTarget = TypeVar("TStepTarget", bound=GenericWorkoutStep)
@@ -114,3 +115,12 @@ class GarminToGenericWorkoutMapper(BaseMapper[GarminWorkout, GenericWorkout]):
             return self.step_with_intervals_mapper
         else:
             return self.atomic_step_mapper
+
+
+class GarminToGenericScheduledWorkoutMapper(BaseMapper[GarminScheduledWorkout, GenericWorkout]):
+    workout_mapper = GarminToGenericWorkoutMapper()
+
+    def map(self, garmin: GarminScheduledWorkout) -> GenericWorkout:
+        workout = self.workout_mapper.map(garmin.workout)
+        workout.scheduled_date = garmin.calendarDate
+        return workout
