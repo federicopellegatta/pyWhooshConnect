@@ -16,7 +16,7 @@ from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
 
 def json_path(filename: str) -> Path:
-    return Path(__file__).parents[2] / "resources" / filename
+    return Path(__file__).parents[2] / "resources" / "garmin" / filename
 
 
 def load_garmin_workout(filename: str):
