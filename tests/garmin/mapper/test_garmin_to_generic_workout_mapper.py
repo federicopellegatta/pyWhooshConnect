@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -9,7 +10,8 @@ from src.common.model.generic_workout import (
     GenericIntervalStep,
     GenericWorkout
 )
-from src.garmin.mapper.garmin_to_generic import GarminToGenericWorkoutMapper
+from src.garmin.mapper.garmin_to_generic import GarminToGenericWorkoutMapper, GarminToGenericScheduledWorkoutMapper
+from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
 
@@ -93,3 +95,18 @@ class TestGarminToGenericWorkoutMapper:
         assert generic_interval_step.step_id == 2
         assert generic_interval_step.duration_in_seconds == garmin_interval_step.endConditionValue
         assert generic_interval_step.power_zone == garmin_interval_step.zoneNumber
+
+    def test_scheduled_workout_mapping(self, garmin_workout, generic_workout):
+        """Test that a scheduled workout is correctly mapped to generic workout."""
+        garmin_scheduled_workout = GarminScheduledWorkout(
+            workoutScheduleId=1,
+            workout=garmin_workout,
+            calendarDate=date(2025, 1, 1),
+            createdDate=date(2024, 12, 1),
+            ownerId=123
+        )
+
+        generic_scheduled_workout = GarminToGenericScheduledWorkoutMapper().map(garmin_scheduled_workout)
+
+        generic_workout.scheduled_date = garmin_scheduled_workout.calendarDate
+        assert generic_scheduled_workout.__eq__(garmin_workout)
