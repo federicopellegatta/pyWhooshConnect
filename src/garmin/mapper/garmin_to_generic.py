@@ -8,7 +8,7 @@ from src.common.model.generic_workout import (
     GenericStepWithIntervals,
     GenericIntervalStep
 )
-from src.common.model.generic_workout_step import GenericWorkoutStep
+from src.common.model.generic_workout_step import GenericWorkoutStep, StepType
 from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
@@ -35,6 +35,19 @@ class GarminToGenericStepMapper(BaseMapper[GarminWorkoutStep, TStepTarget], ABC)
         raise ValueError(f"Unknown step condition type {garmin.endCondition}")
 
 
+class GarminToStepTypeMapper(GarminToGenericStepMapper[StepType]):
+    def map(self, garmin: GarminWorkoutStep, options: Optional[MapperOptions] = None) -> StepType:
+        mapping = {
+            "warmup": StepType.WARM_UP,
+            "cooldown": StepType.COOL_DOWN,
+            "recovery": StepType.RECOVERY,
+            "repeat": StepType.INTERVAL,
+            "interval": StepType.INTERVAL
+        }
+
+        return mapping.get(garmin.stepType.stepTypeKey if garmin.stepType else None, StepType.INTERVAL)
+
+
 class GarminToGenericAtomicStepMapper(GarminToGenericStepMapper[GenericAtomicStep]):
     def map(self, garmin: GarminWorkoutStep, options: Optional[MapperOptions] = None) -> GenericAtomicStep:
         if garmin.workoutSteps:
@@ -44,7 +57,7 @@ class GarminToGenericAtomicStepMapper(GarminToGenericStepMapper[GenericAtomicSte
             step_id=garmin.stepOrder,
             duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
             power_zone=garmin.zoneNumber,
-            type=garmin.stepType.stepTypeKey.lower(),
+            type=GarminToStepTypeMapper().map(garmin),
             description=garmin.description,
             rpm=None
         )
@@ -59,7 +72,7 @@ class GarminToGenericIntervalStepMapper(GarminToGenericStepMapper[GenericInterva
             step_id=garmin.stepId,
             duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
             power_zone=garmin.zoneNumber,
-            type=garmin.stepType.stepTypeKey.lower(),
+            type=GarminToStepTypeMapper().map(garmin),
             description=garmin.description,
             rpm=None
         )
@@ -74,7 +87,7 @@ class GarminToGenericStepWithIntervals(GarminToGenericStepMapper[GenericStepWith
 
         step = GenericStepWithIntervals(
             step_id=garmin.stepOrder,
-            type=garmin.stepType.stepTypeKey.lower(),
+            type=GarminToStepTypeMapper().map(garmin),
             description=garmin.description,
             iterations=self._get_number_of_iterations(garmin),
             steps=[

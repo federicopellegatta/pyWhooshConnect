@@ -8,6 +8,7 @@ from src.common.model.generic_workout import (
     GenericWorkout,
     GenericIntervalStep
 )
+from src.common.model.generic_workout_step import StepType
 
 
 @pytest.fixture
@@ -17,7 +18,7 @@ def basic_interval_step():
         step_id=1,
         duration_in_seconds=60,
         power_zone=1,
-        type="normal"
+        type=StepType.INTERVAL
     )
 
 
@@ -28,7 +29,7 @@ def second_interval_step():
         step_id=2,
         duration_in_seconds=120,
         power_zone=2,
-        type="normal"
+        type=StepType.INTERVAL
     )
 
 
@@ -39,7 +40,7 @@ def warmup_step():
         step_id=0,
         duration_in_seconds=30,
         power_zone=1,
-        type="warmup"
+        type=StepType.WARM_UP
     )
 
 
@@ -48,7 +49,7 @@ class TestGenericStepWithIntervals:
         """Test that duration is correctly multiplied by iterations."""
         interval_step = GenericStepWithIntervals(
             step_id=1,
-            type="repeat",
+            type=StepType.INTERVAL,
             steps=[basic_interval_step],
             iterations=2
         )
@@ -60,7 +61,7 @@ class TestGenericStepWithIntervals:
         """Test that adding a step updates the total duration correctly."""
         interval_step = GenericStepWithIntervals(
             step_id=1,
-            type="repeat",
+            type=StepType.INTERVAL,
             steps=[basic_interval_step],
             iterations=2
         )
@@ -75,7 +76,7 @@ class TestGenericStepWithIntervals:
         """Test that removing a step updates the total duration correctly."""
         interval_step = GenericStepWithIntervals(
             step_id=1,
-            type="repeat",
+            type=StepType.INTERVAL,
             steps=[basic_interval_step, second_interval_step],
             iterations=2
         )

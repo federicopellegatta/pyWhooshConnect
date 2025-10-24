@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import timedelta, date
 from typing import List, Optional
 
-from src.common.model.generic_workout_step import GenericWorkoutStep
+from src.common.model.generic_workout_step import GenericWorkoutStep, StepType
 from src.common.model.workout_step_utils import StepContainerMixin
 
 
@@ -10,8 +10,8 @@ from src.common.model.workout_step_utils import StepContainerMixin
 class GenericAtomicStep(GenericWorkoutStep):
     step_id: int
     duration_in_seconds: int
-    type: str
-    power_zone: Optional[int] = None # None means free ride
+    type: StepType
+    power_zone: Optional[int] = None  # None means free ride
     description: Optional[str] = None
     rpm: Optional[int] = None
 
@@ -25,7 +25,7 @@ class GenericIntervalStep(GenericWorkoutStep):
     step_id: int
     duration_in_seconds: int
     power_zone: int
-    type: str
+    type: StepType
     description: Optional[str] = None
     rpm: Optional[int] = None
 
@@ -37,7 +37,7 @@ class GenericIntervalStep(GenericWorkoutStep):
 @dataclass
 class GenericStepWithIntervals(GenericWorkoutStep, StepContainerMixin):
     step_id: int
-    type: str
+    type: StepType
     steps: List[GenericIntervalStep]
     iterations: int
     description: Optional[str] = None
@@ -65,3 +65,12 @@ class GenericWorkout(StepContainerMixin):
 
     def get_step_by_id(self, step_id: int) -> GenericWorkoutStep:
         return next(step for step in self.steps if step.step_id == step_id)
+
+    def duration(self) -> timedelta:
+        return sum((step.duration for step in self.steps), timedelta())
+
+    def number_of_intervals(self):
+        return sum(
+            (len(step.steps) * step.iterations if isinstance(step, GenericStepWithIntervals) else 1)
+            for step in self.steps
+        )

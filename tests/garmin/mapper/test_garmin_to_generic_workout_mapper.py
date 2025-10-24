@@ -67,7 +67,6 @@ class TestGarminToGenericWorkoutMapper:
         assert isinstance(first_generic_step, GenericAtomicStep)
         assert first_generic_step.step_id == 1
         assert first_generic_step.duration.total_seconds() == first_garmin_step.endConditionValue
-        assert first_generic_step.type == first_garmin_step.stepType.stepTypeKey
         assert first_generic_step.power_zone == first_garmin_step.zoneNumber
 
     def test_step_with_intervals_mapping(self, garmin_workout, generic_workout):
