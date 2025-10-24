@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import timedelta, date
 from typing import List, Optional
 
 from src.common.model.generic_workout_step import GenericWorkoutStep
@@ -61,6 +61,7 @@ class GenericWorkout(StepContainerMixin):
     description: str
     steps: List[GenericWorkoutStep]
     sport: str = "cycling"
+    scheduled_date: Optional[date] = None
 
     def get_step_by_id(self, step_id: int) -> GenericWorkoutStep:
         return next(step for step in self.steps if step.step_id == step_id)
