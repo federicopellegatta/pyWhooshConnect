@@ -10,7 +10,7 @@ from src.common.model.generic_workout import (
     GenericIntervalStep,
     GenericWorkout
 )
-from src.garmin.mapper.garmin_to_generic import GarminToGenericWorkoutMapper, GarminToGenericScheduledWorkoutMapper
+from src.garmin.mapper.garmin_to_generic_workout import GarminToGenericWorkoutMapper, GarminToGenericScheduledWorkoutMapper
 from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
