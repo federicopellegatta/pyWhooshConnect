@@ -37,6 +37,9 @@ class GarminToGenericStepMapper(BaseMapper[GarminWorkoutStep, TStepTarget], ABC)
 
 class GarminToStepTypeMapper(GarminToGenericStepMapper[StepType]):
     def map(self, garmin: GarminWorkoutStep, options: Optional[MapperOptions] = None) -> StepType:
+        if garmin.zoneNumber is None:
+            return StepType.FREE_RIDE
+
         mapping = {
             "warmup": StepType.WARM_UP,
             "cooldown": StepType.COOL_DOWN,

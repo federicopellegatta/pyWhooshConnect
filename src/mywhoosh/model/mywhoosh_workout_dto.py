@@ -14,7 +14,7 @@ class MyWhooshWorkoutStep:
     Id: int
     WorkoutMessage: List[str]
     Rpm: float
-    Power: float
+    Power: Optional[float]
     Pace: float
     StartPower: float
     EndPower: float

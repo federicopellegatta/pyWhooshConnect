@@ -16,9 +16,12 @@ def _name(workout: GenericWorkout) -> str:
 
 
 class GenericToMyWhooshPowerMapper(BaseMapper[int, float]):
-    def map(self, zone: int, options: Optional[PowerZonesOptions] = None) -> float:
+    def map(self, zone: Optional[int], options: Optional[PowerZonesOptions] = None) -> Optional[float]:
         if not options.power_zones:
             raise RuntimeError("No power zones specified")
+
+        if zone is None: # free ride
+            return 0
 
         floor, ceiling = options.power_zones.get_zone(zone)
 
