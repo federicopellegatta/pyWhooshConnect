@@ -251,7 +251,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
 
         result = mapper.map(simple_workout, power_zones_options)
 
-        assert result.Name == "20250101 TestWorkout"
+        assert result.Name == "20250101 Test Workout"
         assert result.Description == "A test workout"
         assert len(result.WorkoutSteps) == 1
         assert result.WorkoutSteps[0].Id == 1  # Should be reindexed to 1
@@ -264,7 +264,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
 
         result = mapper.map(complex_workout, power_zones_options)
 
-        assert result.Name == "20250101 ComplexWorkout"
+        assert result.Name == "20250101 Complex Workout"
         assert result.Description == "A complex test workout"
         # 1 warm up + (2 interval steps * 3 iterations) + 1 cool down = 8 steps
         assert len(result.WorkoutSteps) == 8

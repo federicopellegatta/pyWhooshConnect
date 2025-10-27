@@ -10,7 +10,7 @@ from src.mywhoosh.model.mywhoosh_workout_dto import MyWhooshWorkout, MyWhooshWor
 
 def _name(workout: GenericWorkout) -> str:
     formatted_schedule_date = workout.scheduled_date.strftime("%Y%m%d") if workout.scheduled_date else None
-    formatted_name = re.sub(r'[^a-zA-Z0-9]', '', workout.name)
+    formatted_name = re.sub(r'[^a-zA-Z0-9\s]', '', workout.name)
 
     return f"{formatted_schedule_date or ''} {formatted_name}"
 
@@ -80,7 +80,7 @@ class GenericToMyWhooshWorkoutMapper(BaseMapper[GenericWorkout, MyWhooshWorkout]
         return MyWhooshWorkout(
             Name=_name(workout),
             Description=workout.description,
-            WorkoutSteps=workout_steps,
+            WorkoutStepsArray=workout_steps,
             StepCount=len(workout_steps),
             Time=int(workout.duration().total_seconds()),
             AuthorName="Garmin powered by pyWhooshGarmin"
