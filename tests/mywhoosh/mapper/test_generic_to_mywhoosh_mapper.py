@@ -14,7 +14,7 @@ from src.common.model.power_zones import PowerZones
 from src.mywhoosh.mapper.generic_to_mywhoosh import (
     GenericToMyWhooshPowerMapper,
     GenericToMyWhooshStepMapper,
-    GenericToMyWhooshWorkoutStepMapper
+    GenericToMyWhooshWorkoutMapper
 )
 
 
@@ -247,7 +247,7 @@ class TestGenericToMyWhooshStepMapper:
 class TestGenericToMyWhooshWorkoutStepMapper:
 
     def test_map_simple_workout(self, simple_workout, power_zones_options):
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
 
         result = mapper.map(simple_workout, power_zones_options)
 
@@ -260,7 +260,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         assert result.AuthorName == "Garmin powered by pyWhooshGarmin"
 
     def test_map_complex_workout(self, complex_workout, power_zones_options):
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
 
         result = mapper.map(complex_workout, power_zones_options)
 
@@ -302,7 +302,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
             ]
         )
 
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
         result = mapper.map(workout, power_zones_options)
 
         # IDs should be reindexed to 1, 2, 3
@@ -355,7 +355,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
             ]
         )
 
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
         result = mapper.map(workout, power_zones_options)
 
         # Should have: 1 warm-up + 4 intervals (2 steps * 2 iterations) + 1 cool-down = 6 steps
@@ -390,7 +390,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
             ]
         )
 
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
         result = mapper.map(workout, power_zones_options)
 
         assert result.Time == 900  # 300 + 600
@@ -439,7 +439,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
             ]
         )
 
-        mapper = GenericToMyWhooshWorkoutStepMapper()
+        mapper = GenericToMyWhooshWorkoutMapper()
         result = mapper.map(workout, power_zones_options)
 
         # Should have: 2 intervals from first block + 3 intervals from second block = 5 steps

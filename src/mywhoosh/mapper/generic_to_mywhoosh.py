@@ -59,7 +59,7 @@ class GenericToMyWhooshStepMapper(BaseMapper[GenericWorkoutStep, MyWhooshWorkout
         raise TypeError(f"{type(step)} not supported")
 
 
-class GenericToMyWhooshWorkoutStepMapper(BaseMapper[GenericWorkout, MyWhooshWorkout]):
+class GenericToMyWhooshWorkoutMapper(BaseMapper[GenericWorkout, MyWhooshWorkout]):
     step_mapper = GenericToMyWhooshStepMapper()
 
     def map(self, workout: GenericWorkout, options: Optional[MapperOptions] = None) -> MyWhooshWorkout:
