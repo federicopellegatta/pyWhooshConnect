@@ -30,7 +30,7 @@ def power_zones_options(power_zones):
 
 @pytest.fixture
 def simple_workout():
-    """Fixture per un workout semplice con un solo step"""
+    """Fixture for a simple workout with a single step"""
     return GenericWorkout(
         name="Test Workout",
         description="A test workout",
@@ -50,7 +50,7 @@ def simple_workout():
 
 @pytest.fixture
 def complex_workout():
-    """Fixture per un workout complesso con intervalli"""
+    """Fixture for a complex workout with intervals"""
     return GenericWorkout(
         name="Complex Workout!",
         description="A complex test workout",
@@ -212,9 +212,36 @@ class TestGenericToMyWhooshStepMapper:
 
         result = mapper.map(step, power_zones_options)
 
-        assert len(result) == 2
+        assert len(result) == 4  # 2 steps * 2 iterations
         assert result[0].Id == 2
         assert result[1].Id == 3
+        assert result[2].Id == 2
+        assert result[3].Id == 3
+
+    def test_map_step_with_intervals_respects_iterations(self, power_zones_options):
+        """Test that iterations are correctly expanded"""
+        mapper = GenericToMyWhooshStepMapper()
+        step = GenericStepWithIntervals(
+            step_id=1,
+            steps=[
+                GenericIntervalStep(
+                    step_id=10,
+                    duration_in_seconds=120,
+                    power_zone=5,
+                    rpm=100,
+                    type=StepType.INTERVAL,
+                    description="Hard"
+                )
+            ],
+            iterations=3,
+            type=StepType.INTERVAL
+        )
+
+        result = mapper.map(step, power_zones_options)
+
+        assert len(result) == 3  # 1 step * 3 iterations
+        # All should have the same original step_id
+        assert all(step.Id == 10 for step in result)
 
 
 class TestGenericToMyWhooshWorkoutStepMapper:
@@ -227,7 +254,8 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         assert result.Name == "20250101 TestWorkout"
         assert result.Description == "A test workout"
         assert len(result.WorkoutSteps) == 1
-        assert result.StepCount == simple_workout.number_of_intervals()
+        assert result.WorkoutSteps[0].Id == 1  # Should be reindexed to 1
+        assert result.StepCount == 1
         assert result.Time == 300
         assert result.AuthorName == "Garmin powered by pyWhooshGarmin"
 
@@ -238,32 +266,34 @@ class TestGenericToMyWhooshWorkoutStepMapper:
 
         assert result.Name == "20250101 ComplexWorkout"
         assert result.Description == "A complex test workout"
-        # 1 warm up + 2 interval steps + 1 cool down = 4 steps
-        assert len(result.WorkoutSteps) == 4
+        # 1 warm up + (2 interval steps * 3 iterations) + 1 cool down = 8 steps
+        assert len(result.WorkoutSteps) == 8
+        assert result.StepCount == 8
         assert result.AuthorName == "Garmin powered by pyWhooshGarmin"
 
-    def test_map_workout_preserves_step_order(self, power_zones_options):
+    def test_map_workout_reindexes_step_ids_sequentially(self, power_zones_options):
+        """Test that step IDs are reindexed sequentially starting from 1"""
         workout = GenericWorkout(
-            name="Order Test",
+            name="Reindex Test",
             description="Test",
             scheduled_date=None,
             steps=[
                 GenericAtomicStep(
-                    step_id=10,
+                    step_id=100,
                     duration_in_seconds=100,
                     power_zone=1,
                     rpm=70,
                     type=StepType.INTERVAL
                 ),
                 GenericAtomicStep(
-                    step_id=20,
+                    step_id=200,
                     duration_in_seconds=200,
                     power_zone=2,
                     rpm=80,
                     type=StepType.INTERVAL
                 ),
                 GenericAtomicStep(
-                    step_id=30,
+                    step_id=300,
                     duration_in_seconds=300,
                     power_zone=3,
                     rpm=90,
@@ -275,9 +305,67 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         mapper = GenericToMyWhooshWorkoutStepMapper()
         result = mapper.map(workout, power_zones_options)
 
-        assert result.WorkoutSteps[0].Id == 10
-        assert result.WorkoutSteps[1].Id == 20
-        assert result.WorkoutSteps[2].Id == 30
+        # IDs should be reindexed to 1, 2, 3
+        assert result.WorkoutSteps[0].Id == 1
+        assert result.WorkoutSteps[1].Id == 2
+        assert result.WorkoutSteps[2].Id == 3
+
+    def test_map_workout_reindexes_after_flattening_intervals(self, power_zones_options):
+        """Test that step IDs are reindexed after flattening interval repetitions"""
+        workout = GenericWorkout(
+            name="Flatten Test",
+            description="Test interval flattening and reindexing",
+            scheduled_date=None,
+            steps=[
+                GenericAtomicStep(
+                    step_id=1,
+                    duration_in_seconds=300,
+                    power_zone=2,
+                    rpm=85,
+                    type=StepType.WARM_UP
+                ),
+                GenericStepWithIntervals(
+                    step_id=2,
+                    steps=[
+                        GenericIntervalStep(
+                            step_id=10,
+                            duration_in_seconds=120,
+                            power_zone=5,
+                            rpm=100,
+                            type=StepType.INTERVAL
+                        ),
+                        GenericIntervalStep(
+                            step_id=20,
+                            duration_in_seconds=60,
+                            power_zone=2,
+                            rpm=80,
+                            type=StepType.RECOVERY
+                        )
+                    ],
+                    iterations=2,
+                    type=StepType.INTERVAL
+                ),
+                GenericAtomicStep(
+                    step_id=3,
+                    duration_in_seconds=300,
+                    power_zone=1,
+                    rpm=70,
+                    type=StepType.COOL_DOWN
+                )
+            ]
+        )
+
+        mapper = GenericToMyWhooshWorkoutStepMapper()
+        result = mapper.map(workout, power_zones_options)
+
+        # Should have: 1 warm-up + 4 intervals (2 steps * 2 iterations) + 1 cool-down = 6 steps
+        assert len(result.WorkoutSteps) == 6
+        assert result.StepCount == 6
+
+        # IDs should be sequential from 1 to 6
+        expected_ids = [1, 2, 3, 4, 5, 6]
+        actual_ids = [step.Id for step in result.WorkoutSteps]
+        assert actual_ids == expected_ids
 
     def test_map_workout_calculates_total_time(self, power_zones_options):
         workout = GenericWorkout(
@@ -306,3 +394,59 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         result = mapper.map(workout, power_zones_options)
 
         assert result.Time == 900  # 300 + 600
+
+    def test_map_workout_with_multiple_interval_blocks(self, power_zones_options):
+        """Test workout with multiple interval blocks to ensure correct flattening and reindexing"""
+        workout = GenericWorkout(
+            name="Multi Interval Test",
+            description="Test multiple interval blocks",
+            scheduled_date=None,
+            steps=[
+                GenericStepWithIntervals(
+                    step_id=1,
+                    steps=[
+                        GenericIntervalStep(
+                            step_id=1,
+                            duration_in_seconds=40,
+                            power_zone=5,
+                            rpm=90,
+                            type=StepType.INTERVAL
+                        ),
+                        GenericIntervalStep(
+                            step_id=2,
+                            duration_in_seconds=20,
+                            power_zone=2,
+                            type=StepType.RECOVERY
+                        )
+                    ],
+                    iterations=2,
+                    type=StepType.INTERVAL
+                ),
+                GenericStepWithIntervals(
+                    step_id=2,
+                    steps=[
+                        GenericIntervalStep(
+                            step_id=1,
+                            duration_in_seconds=120,
+                            power_zone=5,
+                            rpm=95,
+                            type=StepType.INTERVAL
+                        )
+                    ],
+                    iterations=3,
+                    type=StepType.INTERVAL
+                )
+            ]
+        )
+
+        mapper = GenericToMyWhooshWorkoutStepMapper()
+        result = mapper.map(workout, power_zones_options)
+
+        # Should have: 2 intervals from first block + 3 intervals from second block = 5 steps
+        assert len(result.WorkoutSteps) == 7
+        assert result.StepCount == 7
+
+        # IDs should be sequential from 1 to 5
+        expected_ids = [1, 2, 3, 4, 5, 6, 7]
+        actual_ids = [step.Id for step in result.WorkoutSteps]
+        assert actual_ids == expected_ids
