@@ -36,7 +36,12 @@ class StepContainerMixin(ABC, Generic[T]):
             raise ValueError("No steps to remove.")
         self.reindex_steps()
 
+    def sort_steps_by_id(self) -> None:
+        """Sort steps by their step_id in ascending order."""
+        self.steps.sort(key=lambda step: step.step_id)
+
     def reindex_steps(self) -> None:
-        """Reassign sequential step_ids starting from 1."""
+        """Sort steps by step_id and reassign sequential step_ids starting from 1."""
+        self.sort_steps_by_id()
         for idx, item in enumerate(self.steps, start=1):
             item.step_id = idx
