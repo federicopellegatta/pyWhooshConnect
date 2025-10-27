@@ -253,8 +253,8 @@ class TestGenericToMyWhooshWorkoutStepMapper:
 
         assert result.Name == "20250101 Test Workout"
         assert result.Description == "A test workout"
-        assert len(result.WorkoutSteps) == 1
-        assert result.WorkoutSteps[0].Id == 1  # Should be reindexed to 1
+        assert len(result.WorkoutStepsArray) == 1
+        assert result.WorkoutStepsArray[0].Id == 1  # Should be reindexed to 1
         assert result.StepCount == 1
         assert result.Time == 300
         assert result.AuthorName == "Garmin powered by pyWhooshGarmin"
@@ -267,7 +267,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         assert result.Name == "20250101 Complex Workout"
         assert result.Description == "A complex test workout"
         # 1 warm up + (2 interval steps * 3 iterations) + 1 cool down = 8 steps
-        assert len(result.WorkoutSteps) == 8
+        assert len(result.WorkoutStepsArray) == 8
         assert result.StepCount == 8
         assert result.AuthorName == "Garmin powered by pyWhooshGarmin"
 
@@ -306,9 +306,9 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         result = mapper.map(workout, power_zones_options)
 
         # IDs should be reindexed to 1, 2, 3
-        assert result.WorkoutSteps[0].Id == 1
-        assert result.WorkoutSteps[1].Id == 2
-        assert result.WorkoutSteps[2].Id == 3
+        assert result.WorkoutStepsArray[0].Id == 1
+        assert result.WorkoutStepsArray[1].Id == 2
+        assert result.WorkoutStepsArray[2].Id == 3
 
     def test_map_workout_reindexes_after_flattening_intervals(self, power_zones_options):
         """Test that step IDs are reindexed after flattening interval repetitions"""
@@ -359,12 +359,12 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         result = mapper.map(workout, power_zones_options)
 
         # Should have: 1 warm-up + 4 intervals (2 steps * 2 iterations) + 1 cool-down = 6 steps
-        assert len(result.WorkoutSteps) == 6
+        assert len(result.WorkoutStepsArray) == 6
         assert result.StepCount == 6
 
         # IDs should be sequential from 1 to 6
         expected_ids = [1, 2, 3, 4, 5, 6]
-        actual_ids = [step.Id for step in result.WorkoutSteps]
+        actual_ids = [step.Id for step in result.WorkoutStepsArray]
         assert actual_ids == expected_ids
 
     def test_map_workout_calculates_total_time(self, power_zones_options):
@@ -443,10 +443,10 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         result = mapper.map(workout, power_zones_options)
 
         # Should have: 2 intervals from first block + 3 intervals from second block = 5 steps
-        assert len(result.WorkoutSteps) == 7
+        assert len(result.WorkoutStepsArray) == 7
         assert result.StepCount == 7
 
         # IDs should be sequential from 1 to 5
         expected_ids = [1, 2, 3, 4, 5, 6, 7]
-        actual_ids = [step.Id for step in result.WorkoutSteps]
+        actual_ids = [step.Id for step in result.WorkoutStepsArray]
         assert actual_ids == expected_ids

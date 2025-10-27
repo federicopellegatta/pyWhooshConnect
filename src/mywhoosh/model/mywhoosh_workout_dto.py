@@ -31,7 +31,7 @@ class MyWhooshWorkout:
     Description: str
     StepCount: int
     Time: int
-    WorkoutSteps: List[MyWhooshWorkoutStep]
+    WorkoutStepsArray: List[MyWhooshWorkoutStep]
     Id: Optional[int] = None
     Mode: str = "E_Ride"
     ERGMode: str = "E_ON"
