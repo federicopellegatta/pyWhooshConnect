@@ -74,3 +74,19 @@ class GenericWorkout(StepContainerMixin):
             (len(step.steps) * step.iterations if isinstance(step, GenericStepWithIntervals) else 1)
             for step in self.steps
         )
+
+    def flatten_steps(self) -> List[GenericWorkoutStep]:
+        """
+        Returns a flat list of all atomic/interval steps with expanded repetitions.
+        Steps with intervals are expanded according to their iteration count.
+        """
+        self.reindex_steps() # TODO order step in this method
+
+        flat_steps = []
+        for step in self.steps:
+            if isinstance(step, GenericStepWithIntervals):
+                for _ in range(step.iterations):
+                    flat_steps.extend(step.steps)
+            else:
+                flat_steps.append(step)
+        return flat_steps

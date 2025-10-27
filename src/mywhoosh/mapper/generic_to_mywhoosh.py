@@ -54,7 +54,7 @@ class GenericToMyWhooshStepMapper(BaseMapper[GenericWorkoutStep, MyWhooshWorkout
                 interval
                 for intervals in step.steps
                 for interval in self.map(intervals, options)
-            ]
+            ] * step.iterations
 
         raise TypeError(f"{type(step)} not supported")
 
@@ -63,15 +63,22 @@ class GenericToMyWhooshWorkoutStepMapper(BaseMapper[GenericWorkout, MyWhooshWork
     step_mapper = GenericToMyWhooshStepMapper()
 
     def map(self, workout: GenericWorkout, options: Optional[MapperOptions] = None) -> MyWhooshWorkout:
+        # Get flattened steps and map them
+        workout_steps = [
+            mapped_step
+            for step in workout.flatten_steps()
+            for mapped_step in self.step_mapper.map(step, options)
+        ]
+
+        # Reindex sequentially
+        for idx, step in enumerate(workout_steps, start=1):
+            step.Id = idx
+
         return MyWhooshWorkout(
             Name=_name(workout),
             Description=workout.description,
-            WorkoutSteps=[
-                substep
-                for step in workout.steps
-                for substep in self.step_mapper.map(step, options)
-            ],
-            StepCount=workout.number_of_intervals(),
+            WorkoutSteps=workout_steps,
+            StepCount=len(workout_steps),
             Time=int(workout.duration().total_seconds()),
             AuthorName="Garmin powered by pyWhooshGarmin"
         )
