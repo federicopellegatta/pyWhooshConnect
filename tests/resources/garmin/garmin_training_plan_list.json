@@ -1,0 +1,61 @@
+[
+  {
+    "trainingPlanId": 41930814,
+    "trainingPlanCategory": "ITP",
+    "trainingType": {
+      "typeId": 3,
+      "typeKey": "Cycling"
+    },
+    "trainingSubType": {
+      "subTypeId": 49,
+      "subTypeKey": "GranFondo"
+    },
+    "trainingLevel": {
+      "levelId": 3,
+      "levelKey": "Intermediate"
+    },
+    "trainingVersion": {
+      "versionId": 7,
+      "versionName": "Power"
+    },
+    "formatLocale": {
+      "id": 74,
+      "key": "it",
+      "isSupported": true
+    },
+    "ownerId": 85750125,
+    "ownerDisplayName": null,
+    "trainingStatus": {
+      "statusId": 1,
+      "statusKey": "Scheduled"
+    },
+    "privacyRule": {
+      "typeId": 2,
+      "typeKey": "private"
+    },
+    "name": "Piano GF Strade Bianche",
+    "description": null,
+    "durationInWeeks": 26,
+    "avgWeeklyWorkouts": 4,
+    "parentPlanId": 33626218,
+    "createDate": "2025-09-09T00:00:00.0",
+    "publishDate": null,
+    "expireDate": null,
+    "startDate": "2025-09-09T00:00:00.0",
+    "pausedDate": null,
+    "resumedDate": null,
+    "endDate": "2026-03-08T00:00:00.0",
+    "taskList": null,
+    "adaptivePlanPhases": null,
+    "planPhases": null,
+    "nameI18nKey": null,
+    "descriptionI18nKey": null,
+    "planKey": null,
+    "seriesIndex": null,
+    "daysInLastWeek": 7,
+    "baseWeeks": 12,
+    "buildWeeks": 8,
+    "peakWeeks": 6,
+    "supplementalSports": null
+  }
+]

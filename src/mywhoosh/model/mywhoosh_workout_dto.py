@@ -1,7 +1,8 @@
 """
 DTOs (Data Transfer Objects) for MyWhoosh workout.
 """
-
+import random
+from dataclasses import field
 from typing import List, Optional
 
 from pydantic.dataclasses import dataclass
@@ -32,7 +33,7 @@ class MyWhooshWorkout:
     StepCount: int
     Time: int
     WorkoutStepsArray: List[MyWhooshWorkoutStep]
-    Id: Optional[int] = None
+    Id: int = field(default_factory=lambda: random.randint(1_000_000, 99_999_999))
     Mode: str = "E_Ride"
     ERGMode: str = "E_ON"
     IsRecovery: bool = False

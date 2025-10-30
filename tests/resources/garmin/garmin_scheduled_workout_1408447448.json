@@ -1,0 +1,550 @@
+{
+    "workoutScheduleId": 1408447448,
+    "workout": {
+        "workoutId": 1324746490,
+        "ownerId": 85750125,
+        "workoutName": "La tua scelta: ripetute nella zona 4 o 5 ",
+        "description": "Allenamento di 60 minuti\n- Esegui un rapido riscaldamento.\n- Scegli tra le seguenti opzioni\n- Pedala per 2 minuti nella zona 5 (non alla massima potenza). Ripeti per 2 volte.\n\nOPPURE\n- Pedala per 10 minuti nella zona 4 (non alla massima potenza). Ripeti per 2 volte.\n- Esegui il defaticamento.\n\nQuesto allenamento è flessibile. Se sei il tipo di ciclista a cui piace pedalare a ritmo costante, esegui le ripetute da 10 minuti. Se invece ti piace intervallare il passo con sforzi ad alta potenza, esegui un paio di ripetute da 2 minuti con una potenza che riesci a sostenere per 4 o 5 minuti.",
+        "updatedDate": "2025-10-30T10:06:25.0",
+        "createdDate": "2025-09-09T20:28:38.0",
+        "sportType": {
+            "sportTypeId": 2,
+            "sportTypeKey": "cycling",
+            "displayOrder": 2
+        },
+        "subSportType": null,
+        "trainingPlanId": 41930814,
+        "author": null,
+        "sharedWithUsers": null,
+        "estimatedDurationInSecs": 3180,
+        "estimatedDistanceInMeters": 0.0,
+        "workoutSegments": [
+            {
+                "segmentOrder": 1,
+                "sportType": {
+                    "sportTypeId": 2,
+                    "sportTypeKey": "cycling",
+                    "displayOrder": 2
+                },
+                "poolLengthUnit": null,
+                "poolLength": null,
+                "avgTrainingSpeed": null,
+                "estimatedDurationInSecs": null,
+                "estimatedDistanceInMeters": null,
+                "estimatedDistanceUnit": null,
+                "estimateType": null,
+                "description": null,
+                "workoutSteps": [
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523941,
+                        "stepOrder": 1,
+                        "stepType": {
+                            "stepTypeId": 1,
+                            "stepTypeKey": "warmup",
+                            "displayOrder": 1
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 1,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523942,
+                        "stepOrder": 2,
+                        "stepType": {
+                            "stepTypeId": 1,
+                            "stepTypeKey": "warmup",
+                            "displayOrder": 1
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 2,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523943,
+                        "stepOrder": 3,
+                        "stepType": {
+                            "stepTypeId": 1,
+                            "stepTypeKey": "warmup",
+                            "displayOrder": 1
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 3,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523944,
+                        "stepOrder": 4,
+                        "stepType": {
+                            "stepTypeId": 4,
+                            "stepTypeKey": "recovery",
+                            "displayOrder": 4
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 180.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 2,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523945,
+                        "stepOrder": 5,
+                        "stepType": {
+                            "stepTypeId": 3,
+                            "stepTypeKey": "interval",
+                            "displayOrder": 3
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 600.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 4,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523946,
+                        "stepOrder": 6,
+                        "stepType": {
+                            "stepTypeId": 4,
+                            "stepTypeKey": "recovery",
+                            "displayOrder": 4
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 2,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523947,
+                        "stepOrder": 7,
+                        "stepType": {
+                            "stepTypeId": 3,
+                            "stepTypeKey": "interval",
+                            "displayOrder": 3
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 600.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 4,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523948,
+                        "stepOrder": 8,
+                        "stepType": {
+                            "stepTypeId": 4,
+                            "stepTypeKey": "recovery",
+                            "displayOrder": 4
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 2,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null,
+                        "powerCurveDuration": 600,
+                        "powerCurveScale": 90,
+                        "powerCurveRange": 10
+                    },
+                    {
+                        "type": "ExecutableStepDTO",
+                        "stepId": 11401523949,
+                        "stepOrder": 9,
+                        "stepType": {
+                            "stepTypeId": 2,
+                            "stepTypeKey": "cooldown",
+                            "displayOrder": 2
+                        },
+                        "childStepId": null,
+                        "description": null,
+                        "endCondition": {
+                            "conditionTypeId": 2,
+                            "conditionTypeKey": "time",
+                            "displayOrder": 2,
+                            "displayable": true
+                        },
+                        "endConditionValue": 300.0,
+                        "preferredEndConditionUnit": null,
+                        "endConditionCompare": null,
+                        "targetType": {
+                            "workoutTargetTypeId": 2,
+                            "workoutTargetTypeKey": "power.zone",
+                            "displayOrder": 2
+                        },
+                        "targetValueOne": null,
+                        "targetValueTwo": null,
+                        "targetValueUnit": null,
+                        "zoneNumber": 1,
+                        "secondaryTargetType": null,
+                        "secondaryTargetValueOne": null,
+                        "secondaryTargetValueTwo": null,
+                        "secondaryTargetValueUnit": null,
+                        "secondaryZoneNumber": null,
+                        "endConditionZone": null,
+                        "strokeType": {
+                            "strokeTypeId": 0,
+                            "strokeTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "equipmentType": {
+                            "equipmentTypeId": 0,
+                            "equipmentTypeKey": null,
+                            "displayOrder": 0
+                        },
+                        "category": null,
+                        "exerciseName": null,
+                        "workoutProvider": null,
+                        "providerExerciseSourceId": null,
+                        "weightValue": null,
+                        "weightUnit": null
+                    }
+                ]
+            }
+        ],
+        "poolLength": null,
+        "poolLengthUnit": null,
+        "locale": null,
+        "workoutProvider": null,
+        "workoutSourceId": null,
+        "uploadTimestamp": null,
+        "atpPlanId": null,
+        "consumer": null,
+        "consumerName": null,
+        "consumerImageURL": null,
+        "consumerWebsiteURL": null,
+        "workoutNameI18nKey": "wk_name_848c4443-5419-4d28-be63-7c90d46c26c8",
+        "descriptionI18nKey": "wk_descr_ad37481f-2ae5-455d-8518-33c9127c5311",
+        "avgTrainingSpeed": 0.0,
+        "estimateType": "DISTANCE_ESTIMATED",
+        "estimatedDistanceUnit": {
+            "unitId": 2,
+            "unitKey": "kilometer",
+            "factor": 100000.0
+        },
+        "workoutThumbnailUrl": "https://connect.garmin.com/chart-service/workout?data=n,5,pz=1-n,5,pz=2-n,5,pz=3-n,3,pz=2-n,10,pz=4-n,5,pz=2-n,10,pz=4-n,5,pz=2-n,5,pz=1",
+        "isSessionTransitionEnabled": null,
+        "shared": false
+    },
+    "calendarDate": "2025-10-30",
+    "createdDate": "2025-09-09",
+    "ownerId": 85750125,
+    "newName": null,
+    "consumer": null,
+    "atpPlanTypeId": null,
+    "associatedActivityId": null,
+    "priority": 1,
+    "associatedActivityDateTime": null,
+    "tpType": "ITP",
+    "nameChanged": false,
+    "protected": false,
+    "itp": true,
+    "race": false
+}
