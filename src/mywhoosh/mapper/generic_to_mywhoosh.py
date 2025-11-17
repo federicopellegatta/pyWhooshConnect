@@ -26,9 +26,9 @@ class GenericToMyWhooshPowerMapper(BaseMapper[int, float]):
         floor, ceiling = options.power_zones.get_zone(zone)
 
         if zone == 7:  # ceiling == inf
-            return floor * options.zone7_multiplier
+            return floor * options.config.get_zone7_multiplier()
 
-        return floor + (ceiling - floor) * options.zone_weight
+        return floor + (ceiling - floor) * options.config.get_zone_weight(zone)
 
 
 class GenericToMyWhooshStepMapper(BaseMapper[GenericWorkoutStep, MyWhooshWorkoutStep]):
