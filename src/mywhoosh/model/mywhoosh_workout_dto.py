@@ -1,6 +1,7 @@
 """
 DTOs (Data Transfer Objects) for MyWhoosh workout.
 """
+
 import random
 from dataclasses import field
 from typing import List, Optional
@@ -60,4 +61,5 @@ class MyWhooshWorkout:
     def to_json(self) -> str:
         from pydantic.json import pydantic_encoder
         import json
+
         return json.dumps(self, default=pydantic_encoder)

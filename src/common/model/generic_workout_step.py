@@ -21,5 +21,4 @@ class GenericWorkoutStep(ABC):
 
     @property
     @abstractmethod
-    def duration(self) -> timedelta:
-        ...
+    def duration(self) -> timedelta: ...

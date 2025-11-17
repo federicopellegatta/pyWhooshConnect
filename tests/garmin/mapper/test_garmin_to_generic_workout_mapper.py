@@ -8,9 +8,12 @@ from src.common.model.generic_workout import (
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
-    GenericWorkout
+    GenericWorkout,
 )
-from src.garmin.mapper.garmin_to_generic_workout import GarminToGenericWorkoutMapper, GarminToGenericScheduledWorkoutMapper
+from src.garmin.mapper.garmin_to_generic_workout import (
+    GarminToGenericWorkoutMapper,
+    GarminToGenericScheduledWorkoutMapper,
+)
 from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
 
@@ -37,13 +40,18 @@ def generic_workout(garmin_workout):
     return GarminToGenericWorkoutMapper().map(garmin_workout)
 
 
-def _get_step_with_intervals(garmin: GarminWorkout, generic: GenericWorkout) -> tuple[None, None] | tuple[
-    GarminWorkoutStep, GenericStepWithIntervals]:
-    garmin_step_with_intervals = next((s for s in garmin.workoutSegments[0].workoutSteps if s.workoutSteps), None)
+def _get_step_with_intervals(
+    garmin: GarminWorkout, generic: GenericWorkout
+) -> tuple[None, None] | tuple[GarminWorkoutStep, GenericStepWithIntervals]:
+    garmin_step_with_intervals = next(
+        (s for s in garmin.workoutSegments[0].workoutSteps if s.workoutSteps), None
+    )
     if not garmin_step_with_intervals:
         return None, None
 
-    generic_step_with_intervals = generic.get_step_by_id(garmin_step_with_intervals.stepOrder)
+    generic_step_with_intervals = generic.get_step_by_id(
+        garmin_step_with_intervals.stepOrder
+    )
     assert isinstance(generic_step_with_intervals, GenericStepWithIntervals)
 
     return garmin_step_with_intervals, generic_step_with_intervals
@@ -66,24 +74,36 @@ class TestGarminToGenericWorkoutMapper:
 
         assert isinstance(first_generic_step, GenericAtomicStep)
         assert first_generic_step.step_id == 1
-        assert first_generic_step.duration.total_seconds() == first_garmin_step.endConditionValue
+        assert (
+            first_generic_step.duration.total_seconds()
+            == first_garmin_step.endConditionValue
+        )
         assert first_generic_step.power_zone == first_garmin_step.zoneNumber
 
     def test_step_with_intervals_mapping(self, garmin_workout, generic_workout):
         """Test that a step with intervals is correctly mapped."""
-        garmin_step_with_intervals, generic_step_with_intervals = _get_step_with_intervals(garmin_workout,
-                                                                                           generic_workout)
+        garmin_step_with_intervals, generic_step_with_intervals = (
+            _get_step_with_intervals(garmin_workout, generic_workout)
+        )
         if not garmin_step_with_intervals:
             return
 
-        assert generic_step_with_intervals.step_id == garmin_step_with_intervals.stepOrder
-        assert generic_step_with_intervals.iterations == garmin_step_with_intervals.numberOfIterations
-        assert len(generic_step_with_intervals.steps) == len(garmin_step_with_intervals.workoutSteps)
+        assert (
+            generic_step_with_intervals.step_id == garmin_step_with_intervals.stepOrder
+        )
+        assert (
+            generic_step_with_intervals.iterations
+            == garmin_step_with_intervals.numberOfIterations
+        )
+        assert len(generic_step_with_intervals.steps) == len(
+            garmin_step_with_intervals.workoutSteps
+        )
 
     def test_interval_step_mapping(self, garmin_workout, generic_workout):
         """Test that individual interval steps within a repeat block are correctly mapped."""
-        garmin_step_with_intervals, generic_step_with_intervals = _get_step_with_intervals(garmin_workout,
-                                                                                           generic_workout)
+        garmin_step_with_intervals, generic_step_with_intervals = (
+            _get_step_with_intervals(garmin_workout, generic_workout)
+        )
         if not garmin_step_with_intervals:
             return
 
@@ -92,7 +112,10 @@ class TestGarminToGenericWorkoutMapper:
 
         assert isinstance(generic_interval_step, GenericIntervalStep)
         assert generic_interval_step.step_id == 2
-        assert generic_interval_step.duration_in_seconds == garmin_interval_step.endConditionValue
+        assert (
+            generic_interval_step.duration_in_seconds
+            == garmin_interval_step.endConditionValue
+        )
         assert generic_interval_step.power_zone == garmin_interval_step.zoneNumber
 
     def test_scheduled_workout_mapping(self, garmin_workout, generic_workout):
@@ -102,10 +125,12 @@ class TestGarminToGenericWorkoutMapper:
             workout=garmin_workout,
             calendarDate=date(2025, 1, 1),
             createdDate=date(2024, 12, 1),
-            ownerId=123
+            ownerId=123,
         )
 
-        generic_scheduled_workout = GarminToGenericScheduledWorkoutMapper().map(garmin_scheduled_workout)
+        generic_scheduled_workout = GarminToGenericScheduledWorkoutMapper().map(
+            garmin_scheduled_workout
+        )
 
         generic_workout.scheduled_date = garmin_scheduled_workout.calendarDate
         assert generic_scheduled_workout.__eq__(garmin_workout)

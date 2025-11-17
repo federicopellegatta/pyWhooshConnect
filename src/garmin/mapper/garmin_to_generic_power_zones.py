@@ -13,14 +13,16 @@ def _calculate_zone_floor(zone: int, garmin: GarminPowerZones):
         4: garmin.zone4Floor,
         5: garmin.zone5Floor,
         6: garmin.zone6Floor,
-        7: garmin.zone7Floor
+        7: garmin.zone7Floor,
     }
 
     return mapping[zone] / garmin.functionalThresholdPower
 
 
 class GarminToGenericPowerZonesMapper(BaseMapper[GarminPowerZones, PowerZones]):
-    def map(self, garmin: GarminPowerZones, options: Optional[MapperOptions] = None) -> PowerZones:
+    def map(
+        self, garmin: GarminPowerZones, options: Optional[MapperOptions] = None
+    ) -> PowerZones:
         return PowerZones(
             ftp=int(garmin.functionalThresholdPower),
             z1_floor=_calculate_zone_floor(1, garmin),
@@ -29,5 +31,5 @@ class GarminToGenericPowerZonesMapper(BaseMapper[GarminPowerZones, PowerZones]):
             z4_floor=_calculate_zone_floor(4, garmin),
             z5_floor=_calculate_zone_floor(5, garmin),
             z6_floor=_calculate_zone_floor(6, garmin),
-            z7_floor=_calculate_zone_floor(7, garmin)
+            z7_floor=_calculate_zone_floor(7, garmin),
         )

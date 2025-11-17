@@ -15,6 +15,7 @@ class PowerZones:
     Typically: Z1 (recovery), Z2 (endurance), Z3 (tempo), Z4 (threshold),
     Z5 (VO2max), Z6 (anaerobic), Z7 (neuromuscular).
     """
+
     ftp: int
     z1_floor: float = 0
     z2_floor: float = 0.55
@@ -64,7 +65,11 @@ class PowerZones:
         """
         floor_ratio, ceiling_ratio = self.get_zone(zone)
         floor_watts = float(int(floor_ratio * self.ftp))
-        ceiling_watts = math.inf if ceiling_ratio == math.inf else float(int(ceiling_ratio * self.ftp))
+        ceiling_watts = (
+            math.inf
+            if ceiling_ratio == math.inf
+            else float(int(ceiling_ratio * self.ftp))
+        )
 
         return floor_watts, ceiling_watts
 
@@ -103,5 +108,5 @@ class PowerZones:
             4: self.z4_floor,
             5: self.z5_floor,
             6: self.z6_floor,
-            7: self.z7_floor
+            7: self.z7_floor,
         }
