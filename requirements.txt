@@ -2,3 +2,4 @@ garminconnect>=0.2.30
 pydantic
 pytest
 pytest-mock
+pyyaml

@@ -1,0 +1,73 @@
+from pathlib import Path
+from typing import Dict
+
+import yaml
+
+
+class PowerZoneConfigurationError(Exception):
+    """Raised when the power zone configuration is invalid."""
+    pass
+
+
+def _load_config(config_path: str) -> dict:
+    """Load YAML configuration file"""
+    path = Path(config_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Config file not found: {config_path}")
+
+    with open(path, 'r') as file:
+        return yaml.safe_load(file)
+
+
+class PowerZoneConfig:
+    """Configuration for power zone mapping with defaults"""
+
+    # Default values if config file is missing or incomplete
+    DEFAULT_ZONE_WEIGHT = 0.5
+    DEFAULT_ZONE7_MULTIPLIER = 1.1
+
+    def __init__(self, config_path: str = None):
+        if config_path is None:
+            project_root = Path(__file__).parent.parent.parent.parent
+            config_path = project_root / "config" / "power_zones_config.yml"
+
+        try:
+            self.config = _load_config(config_path)
+            power_zones = self.config.get('power_zones', {})
+            self.default_zone_weight = power_zones.get('default_zone_weight', self.DEFAULT_ZONE_WEIGHT)
+            self.zone_weights = self._parse_zone_weights()
+        except FileNotFoundError:
+            # Use defaults if config file doesn't exist
+            self.config = {}
+            self.default_zone_weight = self.DEFAULT_ZONE_WEIGHT
+            self.zone_weights = {}
+
+    def _parse_zone_weights(self) -> Dict[int, float]:
+        """Extract per-zone weights from config"""
+        zones_config = self.config.get('power_zones', {}).get('zones', {})
+        zone_weights = {}
+
+        for zone_num, zone_config in zones_config.items():
+            if 'weight' in zone_config:
+                if zone_num == 7:
+                    raise PowerZoneConfigurationError(
+                        "Invalid configuration: Zone 7 cannot specify a weight. Use a multiplier instead."
+                    )
+
+                weight = zone_config['weight']
+                if not (0 <= weight <= 1):
+                    raise PowerZoneConfigurationError(
+                        f"Invalid weight for zone {zone_num}: must be between 0 and 1."
+                    )
+                zone_weights[zone_num] = zone_config['weight']
+
+        return zone_weights
+
+    def get_zone_weight(self, zone: int) -> float:
+        """Get weight for specific zone, falling back to default"""
+        return self.zone_weights.get(zone, self.default_zone_weight)
+
+    def get_zone7_multiplier(self) -> float:
+        """Get multiplier for zone 7, with optional override"""
+        zones_config = self.config.get('power_zones', {}).get('zones', {})
+        return zones_config.get(7, {}).get('multiplier', self.DEFAULT_ZONE7_MULTIPLIER)
