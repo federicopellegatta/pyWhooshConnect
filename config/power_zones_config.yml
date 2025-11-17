@@ -1,0 +1,17 @@
+# Power Zones Configuration
+power_zones:
+  # Default weight for calculating power within a zone
+  # Default value is 0.5 if not specified
+  # Formula: floor + (ceiling - floor) * zone_weight
+  # Value between 0.0 (floor) and 1.0 (ceiling)
+  default_zone_weight: 0.5
+
+  # Per-zone configuration (optional overrides)
+  zones:
+    1:
+      weight: 0.7  # Zone 1: use lower end of range
+    7:
+      # Multiplier for zone 7 (which has infinite ceiling)
+      # Default value is 1.1, if not specified
+      # Formula: floor * zone7_multiplier
+      multiplier: 1.2
