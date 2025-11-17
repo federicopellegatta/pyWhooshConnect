@@ -36,13 +36,6 @@ class GarminSport(Enum):
 
 
 @dataclass
-class GarminSportType:
-    sportTypeId: Optional[int] = None
-    sportTypeKey: Optional[str] = None
-    displayOrder: Optional[int] = None
-
-
-@dataclass
 class GarminStepType:
     stepTypeId: Optional[int] = None
     stepTypeKey: Optional[str] = None
