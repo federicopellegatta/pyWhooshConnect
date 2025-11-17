@@ -26,13 +26,40 @@ class PowerZoneConfig:
     DEFAULT_ZONE_WEIGHT = 0.5
     DEFAULT_ZONE7_MULTIPLIER = 1.1
 
-    def __init__(self, config_path: str = None):
-        if config_path is None:
-            project_root = Path(__file__).parent.parent.parent.parent
-            config_path = project_root / "config" / "power_zones_config.yml"
+    def __init__(self, config_path: str = None, config_dict: dict = None):
+        """
+            Initialize the PowerZoneConfig object.
+
+            The configuration can be loaded either from a YAML file or directly from a dictionary.
+            If both `config_path` and `config_dict` are provided, `config_dict` takes precedence.
+
+            Parameters
+            ----------
+            config_path : str, optional
+                Path to the YAML configuration file containing power zone settings.
+                Defaults to "config/power_zones_config.yml" relative to the project root if not provided.
+            config_dict : dict, optional
+                Dictionary containing power zone configuration. If provided, this will be used
+                instead of loading from a file.
+
+            Notes
+            -----
+            - Zone 7 is treated specially and cannot have a direct weight defined.
+            - If the configuration file is missing or incomplete, default values are used.
+            """
+        if config_dict is not None:
+            self.config = config_dict
+        else:
+            if config_path is None:
+                project_root = Path(__file__).parent.parent.parent.parent
+                config_path = project_root / "config" / "power_zones_config.yml"
+
+            try:
+                self.config = _load_config(config_path)
+            except FileNotFoundError:
+                self.config = {}
 
         try:
-            self.config = _load_config(config_path)
             power_zones = self.config.get('power_zones', {})
             self.default_zone_weight = power_zones.get('default_zone_weight', self.DEFAULT_ZONE_WEIGHT)
             self.zone_weights = self._parse_zone_weights()
