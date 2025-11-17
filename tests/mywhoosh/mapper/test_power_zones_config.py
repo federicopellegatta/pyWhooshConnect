@@ -26,7 +26,7 @@ class TestPowerZoneConfig:
             assert config.get_zone_weight(zone) == PowerZoneConfig.DEFAULT_ZONE_WEIGHT
         assert config.get_zone7_multiplier() == PowerZoneConfig.DEFAULT_ZONE7_MULTIPLIER
 
-    def test_loads_valid_config(self, tmp_path):
+    def test_loads_valid_yml_config(self, tmp_path):
         data = {
             "power_zones": {
                 "default_zone_weight": 0.4,
@@ -45,6 +45,26 @@ class TestPowerZoneConfig:
         assert config.get_zone_weight(2) == 0.8
         assert config.get_zone_weight(5) == 0.4  # fallback to default
         assert config.get_zone7_multiplier() == config.DEFAULT_ZONE7_MULTIPLIER
+
+    def test_loads_valid_dict_config(self, tmp_path):
+        data = {
+            "power_zones": {
+                "zones": {
+                    2: {"weight": 0.3},
+                    6: {"weight": 0.8},
+                    7: {"multiplier": 1.2}
+                }
+            }
+        }
+        path = write_yaml(tmp_path, data)
+        config = PowerZoneConfig(str(path))
+
+        assert config.default_zone_weight == config.DEFAULT_ZONE_WEIGHT
+        assert config.zone_weights == {2: 0.3, 6: 0.8}
+        assert config.get_zone_weight(2) == 0.3
+        assert config.get_zone_weight(6) == 0.8
+        assert config.get_zone_weight(5) == config.DEFAULT_ZONE_WEIGHT  # fallback to default
+        assert config.get_zone7_multiplier() == 1.2
 
     def test_zone7_with_weight_raises_error(self, tmp_path):
         data = {
