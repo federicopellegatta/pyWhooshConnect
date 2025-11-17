@@ -80,3 +80,17 @@ class TestPowerZoneConfig:
         config = PowerZoneConfig(str(path))
 
         assert config.get_zone7_multiplier() == 1.5
+
+    def test_zone7_multiplier_less_than_1_raise_error(self, tmp_path):
+        data = {
+            "power_zones": {
+                "zones": {
+                    7: {"multiplier": 0.9}
+                }
+            }
+        }
+        path = write_yaml(tmp_path, data)
+
+        config = PowerZoneConfig(str(path))
+        with pytest.raises(PowerZoneConfigurationError):
+            config.get_zone7_multiplier()

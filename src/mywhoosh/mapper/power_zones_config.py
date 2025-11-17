@@ -57,7 +57,7 @@ class PowerZoneConfig:
                 weight = zone_config['weight']
                 if not (0 <= weight <= 1):
                     raise PowerZoneConfigurationError(
-                        f"Invalid weight for zone {zone_num}: must be between 0 and 1."
+                        f"Invalid weight for zone {zone_num}: must be between 0 and 1, got {weight}"
                     )
                 zone_weights[zone_num] = zone_config['weight']
 
@@ -70,4 +70,9 @@ class PowerZoneConfig:
     def get_zone7_multiplier(self) -> float:
         """Get multiplier for zone 7, with optional override"""
         zones_config = self.config.get('power_zones', {}).get('zones', {})
-        return zones_config.get(7, {}).get('multiplier', self.DEFAULT_ZONE7_MULTIPLIER)
+        zone7_multiplier = zones_config.get(7, {}).get('multiplier', self.DEFAULT_ZONE7_MULTIPLIER)
+        if zone7_multiplier < 1:
+            raise PowerZoneConfigurationError(
+                f"Invalid multiplier for zone 7: must be greater than or equal to 1, got {zone7_multiplier}"
+            )
+        return zone7_multiplier
