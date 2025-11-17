@@ -16,6 +16,7 @@ from src.mywhoosh.mapper.generic_to_mywhoosh import (
     GenericToMyWhooshStepMapper,
     GenericToMyWhooshWorkoutMapper
 )
+from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
 
 @pytest.fixture
@@ -24,8 +25,9 @@ def power_zones():
 
 
 @pytest.fixture
-def power_zones_options(power_zones):
-    return PowerZonesOptions(power_zones=power_zones)
+def power_zones_options(power_zones, tmp_path):
+    config_path = str(tmp_path / "missing.yml")
+    return PowerZonesOptions(power_zones=power_zones, config=PowerZoneConfig(config_path))
 
 
 @pytest.fixture
