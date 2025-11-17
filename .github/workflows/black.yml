@@ -1,0 +1,23 @@
+name: Black Code Formatter
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  black-check:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.13-alpine
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Black
+      run: |
+        pip install --no-cache-dir black
+
+    - name: Run Black check
+      run: |
+        black --check --diff src/ tests/
