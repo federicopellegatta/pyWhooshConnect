@@ -7,14 +7,14 @@ from src.common.model.generic_workout import (
     GenericWorkout,
     GenericAtomicStep,
     GenericStepWithIntervals,
-    GenericIntervalStep
+    GenericIntervalStep,
 )
 from src.common.model.generic_workout_step import StepType
 from src.common.model.power_zones import PowerZones
 from src.mywhoosh.mapper.generic_to_mywhoosh import (
     GenericToMyWhooshPowerMapper,
     GenericToMyWhooshStepMapper,
-    GenericToMyWhooshWorkoutMapper
+    GenericToMyWhooshWorkoutMapper,
 )
 from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
@@ -27,7 +27,9 @@ def power_zones():
 @pytest.fixture
 def power_zones_options(power_zones, tmp_path):
     config_path = str(tmp_path / "missing.yml")
-    return PowerZonesOptions(power_zones=power_zones, config=PowerZoneConfig(config_path))
+    return PowerZonesOptions(
+        power_zones=power_zones, config=PowerZoneConfig(config_path)
+    )
 
 
 @pytest.fixture
@@ -44,9 +46,9 @@ def simple_workout():
                 power_zone=3,
                 rpm=90,
                 type=StepType.INTERVAL,
-                description="Warm up"
+                description="Warm up",
             )
-        ]
+        ],
     )
 
 
@@ -64,7 +66,7 @@ def complex_workout():
                 power_zone=2,
                 rpm=85,
                 type=StepType.WARM_UP,
-                description="Warm up"
+                description="Warm up",
             ),
             GenericStepWithIntervals(
                 step_id=2,
@@ -75,7 +77,7 @@ def complex_workout():
                         power_zone=5,
                         rpm=100,
                         type=StepType.INTERVAL,
-                        description="Hard interval"
+                        description="Hard interval",
                     ),
                     GenericIntervalStep(
                         step_id=4,
@@ -83,11 +85,11 @@ def complex_workout():
                         power_zone=2,
                         rpm=80,
                         type=StepType.RECOVERY,
-                        description="Recovery"
-                    )
+                        description="Recovery",
+                    ),
                 ],
                 iterations=3,
-                type=StepType.INTERVAL
+                type=StepType.INTERVAL,
             ),
             GenericAtomicStep(
                 step_id=5,
@@ -95,9 +97,9 @@ def complex_workout():
                 power_zone=1,
                 rpm=70,
                 type=StepType.COOL_DOWN,
-                description="Cool down"
-            )
-        ]
+                description="Cool down",
+            ),
+        ],
     )
 
 
@@ -139,7 +141,7 @@ class TestGenericToMyWhooshStepMapper:
             power_zone=3,
             rpm=90,
             type=StepType.INTERVAL,
-            description="Test step"
+            description="Test step",
         )
 
         result = mapper.map(step, power_zones_options)
@@ -160,7 +162,7 @@ class TestGenericToMyWhooshStepMapper:
             power_zone=2,
             rpm=0,
             type=StepType.FREE_RIDE,
-            description=None
+            description=None,
         )
 
         result = mapper.map(step, power_zones_options)
@@ -178,7 +180,7 @@ class TestGenericToMyWhooshStepMapper:
             power_zone=5,
             rpm=100,
             type=StepType.INTERVAL,
-            description="Interval"
+            description="Interval",
         )
 
         result = mapper.map(step, power_zones_options)
@@ -197,7 +199,7 @@ class TestGenericToMyWhooshStepMapper:
                     power_zone=5,
                     rpm=100,
                     type=StepType.INTERVAL,
-                    description="Hard"
+                    description="Hard",
                 ),
                 GenericIntervalStep(
                     step_id=3,
@@ -205,11 +207,11 @@ class TestGenericToMyWhooshStepMapper:
                     power_zone=2,
                     rpm=80,
                     type=StepType.INTERVAL,
-                    description="Easy"
-                )
+                    description="Easy",
+                ),
             ],
             iterations=2,
-            type=StepType.INTERVAL
+            type=StepType.INTERVAL,
         )
 
         result = mapper.map(step, power_zones_options)
@@ -232,11 +234,11 @@ class TestGenericToMyWhooshStepMapper:
                     power_zone=5,
                     rpm=100,
                     type=StepType.INTERVAL,
-                    description="Hard"
+                    description="Hard",
                 )
             ],
             iterations=3,
-            type=StepType.INTERVAL
+            type=StepType.INTERVAL,
         )
 
         result = mapper.map(step, power_zones_options)
@@ -285,23 +287,23 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                     duration_in_seconds=100,
                     power_zone=1,
                     rpm=70,
-                    type=StepType.INTERVAL
+                    type=StepType.INTERVAL,
                 ),
                 GenericAtomicStep(
                     step_id=200,
                     duration_in_seconds=200,
                     power_zone=2,
                     rpm=80,
-                    type=StepType.INTERVAL
+                    type=StepType.INTERVAL,
                 ),
                 GenericAtomicStep(
                     step_id=300,
                     duration_in_seconds=300,
                     power_zone=3,
                     rpm=90,
-                    type=StepType.INTERVAL
-                )
-            ]
+                    type=StepType.INTERVAL,
+                ),
+            ],
         )
 
         mapper = GenericToMyWhooshWorkoutMapper()
@@ -312,7 +314,9 @@ class TestGenericToMyWhooshWorkoutStepMapper:
         assert result.WorkoutStepsArray[1].Id == 2
         assert result.WorkoutStepsArray[2].Id == 3
 
-    def test_map_workout_reindexes_after_flattening_intervals(self, power_zones_options):
+    def test_map_workout_reindexes_after_flattening_intervals(
+        self, power_zones_options
+    ):
         """Test that step IDs are reindexed after flattening interval repetitions"""
         workout = GenericWorkout(
             name="Flatten Test",
@@ -324,7 +328,7 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                     duration_in_seconds=300,
                     power_zone=2,
                     rpm=85,
-                    type=StepType.WARM_UP
+                    type=StepType.WARM_UP,
                 ),
                 GenericStepWithIntervals(
                     step_id=2,
@@ -334,27 +338,27 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                             duration_in_seconds=120,
                             power_zone=5,
                             rpm=100,
-                            type=StepType.INTERVAL
+                            type=StepType.INTERVAL,
                         ),
                         GenericIntervalStep(
                             step_id=20,
                             duration_in_seconds=60,
                             power_zone=2,
                             rpm=80,
-                            type=StepType.RECOVERY
-                        )
+                            type=StepType.RECOVERY,
+                        ),
                     ],
                     iterations=2,
-                    type=StepType.INTERVAL
+                    type=StepType.INTERVAL,
                 ),
                 GenericAtomicStep(
                     step_id=3,
                     duration_in_seconds=300,
                     power_zone=1,
                     rpm=70,
-                    type=StepType.COOL_DOWN
-                )
-            ]
+                    type=StepType.COOL_DOWN,
+                ),
+            ],
         )
 
         mapper = GenericToMyWhooshWorkoutMapper()
@@ -380,16 +384,16 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                     duration_in_seconds=300,
                     power_zone=2,
                     rpm=80,
-                    type=StepType.INTERVAL
+                    type=StepType.INTERVAL,
                 ),
                 GenericAtomicStep(
                     step_id=2,
                     duration_in_seconds=600,
                     power_zone=3,
                     rpm=90,
-                    type=StepType.INTERVAL
-                )
-            ]
+                    type=StepType.INTERVAL,
+                ),
+            ],
         )
 
         mapper = GenericToMyWhooshWorkoutMapper()
@@ -412,17 +416,17 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                             duration_in_seconds=40,
                             power_zone=5,
                             rpm=90,
-                            type=StepType.INTERVAL
+                            type=StepType.INTERVAL,
                         ),
                         GenericIntervalStep(
                             step_id=2,
                             duration_in_seconds=20,
                             power_zone=2,
-                            type=StepType.RECOVERY
-                        )
+                            type=StepType.RECOVERY,
+                        ),
                     ],
                     iterations=2,
-                    type=StepType.INTERVAL
+                    type=StepType.INTERVAL,
                 ),
                 GenericStepWithIntervals(
                     step_id=2,
@@ -432,13 +436,13 @@ class TestGenericToMyWhooshWorkoutStepMapper:
                             duration_in_seconds=120,
                             power_zone=5,
                             rpm=95,
-                            type=StepType.INTERVAL
+                            type=StepType.INTERVAL,
                         )
                     ],
                     iterations=3,
-                    type=StepType.INTERVAL
-                )
-            ]
+                    type=StepType.INTERVAL,
+                ),
+            ],
         )
 
         mapper = GenericToMyWhooshWorkoutMapper()

@@ -13,6 +13,7 @@ class StepContainerMixin(ABC, Generic[T]):
     Attributes:
         steps (List[T]): The list of contained steps.
     """
+
     steps: List[T]
 
     def add_step(self, step: T) -> None:

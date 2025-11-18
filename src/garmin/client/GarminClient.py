@@ -7,18 +7,28 @@ from src.garmin.model.garmin_workout_dto import GarminSport
 
 
 def parse_datetime(date_str: str) -> datetime | None:
-    return datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%dT%H:%M:%S.%f") if date_str else None
+    return (
+        datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%dT%H:%M:%S.%f")
+        if date_str
+        else None
+    )
 
 
 def parse_date(date_str: str) -> date | None:
-    return datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%d").date() if date_str else None
+    return (
+        datetime.strptime(date_str.replace(" ", ""), "%Y-%m-%d").date()
+        if date_str
+        else None
+    )
 
 
 class GarminClient(Garmin):
     def __init__(self, email: str, password: str):
         super().__init__(email, password)
 
-    def get_training_plans(self, active: bool = False, sport: GarminSport = None) -> List[dict[str, Any]]:
+    def get_training_plans(
+        self, active: bool = False, sport: GarminSport = None
+    ) -> List[dict[str, Any]]:
         """
         Retrieve all training plans, optionally filtering by active status and sport type.
 
@@ -32,7 +42,9 @@ class GarminClient(Garmin):
         Returns:
             List[dict[str, Any]]: A list of training plan dictionaries matching the specified filters.
         """
-        training_plans = self.connectapi("/trainingplan-service/trainingplan/plans")["trainingPlanList"]
+        training_plans = self.connectapi("/trainingplan-service/trainingplan/plans")[
+            "trainingPlanList"
+        ]
 
         if not active and sport is None:
             return training_plans
@@ -40,9 +52,17 @@ class GarminClient(Garmin):
         today = datetime.today().date()
 
         return [
-            t for t in training_plans
-            if (not active or (parse_datetime(t["startDate"]).date() <= today <= parse_datetime(t["endDate"]).date()))
-               and (sport is None or t["trainingType"]["typeKey"].upper() == sport.value)
+            t
+            for t in training_plans
+            if (
+                not active
+                or (
+                    parse_datetime(t["startDate"]).date()
+                    <= today
+                    <= parse_datetime(t["endDate"]).date()
+                )
+            )
+            and (sport is None or t["trainingType"]["typeKey"].upper() == sport.value)
         ]
 
     def get_training_plan_by_id(self, training_plan_id: int) -> dict[str, Any]:

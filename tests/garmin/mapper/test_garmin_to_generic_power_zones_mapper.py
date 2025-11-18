@@ -1,7 +1,9 @@
 import pytest
 
 from src.common.model.power_zones import PowerZones
-from src.garmin.mapper.garmin_to_generic_power_zones import GarminToGenericPowerZonesMapper
+from src.garmin.mapper.garmin_to_generic_power_zones import (
+    GarminToGenericPowerZonesMapper,
+)
 from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
 
 
@@ -18,7 +20,7 @@ def garmin_power_zones() -> GarminPowerZones:
         zone6Floor=240,
         zone7Floor=300,
         sport="CYCLING",
-        userLocalTime=None
+        userLocalTime=None,
     )
 
 

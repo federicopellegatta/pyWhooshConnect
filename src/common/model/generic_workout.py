@@ -71,7 +71,11 @@ class GenericWorkout(StepContainerMixin):
 
     def number_of_intervals(self):
         return sum(
-            (len(step.steps) * step.iterations if isinstance(step, GenericStepWithIntervals) else 1)
+            (
+                len(step.steps) * step.iterations
+                if isinstance(step, GenericStepWithIntervals)
+                else 1
+            )
             for step in self.steps
         )
 
@@ -80,7 +84,7 @@ class GenericWorkout(StepContainerMixin):
         Returns a flat list of all atomic/interval steps with expanded repetitions.
         Steps with intervals are expanded according to their iteration count.
         """
-        self.reindex_steps() # TODO order step in this method
+        self.reindex_steps()
 
         flat_steps = []
         for step in self.steps:

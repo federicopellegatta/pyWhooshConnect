@@ -34,10 +34,16 @@ class TestGarminToMyWhooshWorkoutSyncService:
     @pytest.fixture
     def mock_workouts_data(self, mock_client):
         """Setup mock responses for Garmin API calls."""
-        mock_client.get_training_plans.return_value = load_file("garmin_training_plan_list.json")
-        mock_client.get_training_plan_by_id.return_value = load_file("training_plan_details.json")
-        mock_client.get_scheduled_workout_by_id.side_effect = lambda scheduled_workout_id: load_file(
-            f"garmin_scheduled_workout_{scheduled_workout_id}.json"
+        mock_client.get_training_plans.return_value = load_file(
+            "garmin_training_plan_list.json"
+        )
+        mock_client.get_training_plan_by_id.return_value = load_file(
+            "training_plan_details.json"
+        )
+        mock_client.get_scheduled_workout_by_id.side_effect = (
+            lambda scheduled_workout_id: load_file(
+                f"garmin_scheduled_workout_{scheduled_workout_id}.json"
+            )
         )
         mock_client.get_power_zones.return_value = load_file("garmin_power_zones.json")
 
@@ -46,7 +52,7 @@ class TestGarminToMyWhooshWorkoutSyncService:
         mywhoosh_workouts = service.sync_workouts(
             sport=GarminSport.CYCLING,
             from_date=datetime(2025, 10, 29),
-            to_date=datetime(2025, 11, 2)
+            to_date=datetime(2025, 11, 2),
         )
 
         assert len(mywhoosh_workouts) == 2
@@ -63,7 +69,7 @@ class TestGarminToMyWhooshWorkoutSyncService:
             sport=GarminSport.CYCLING,
             from_date=datetime(2025, 10, 29),
             to_date=datetime(2025, 11, 2),
-            output_dir=output_dir
+            output_dir=output_dir,
         )
 
         # Verify two files were opened for writing

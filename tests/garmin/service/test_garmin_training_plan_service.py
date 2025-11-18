@@ -68,8 +68,8 @@ class TestGarminTrainingPlanService:
                     "taskWorkout": {
                         "workoutId": workout.workoutId,
                         "workoutScheduleId": 12345,
-                        "scheduledDate": "2025-01-15T10:00:00"
-                    }
+                        "scheduledDate": "2025-01-15T10:00:00",
+                    },
                 }
             ]
         }
@@ -79,25 +79,29 @@ class TestGarminTrainingPlanService:
             workout=workout,
             calendarDate=date(2025, 1, 15),
             createdDate=date(2025, 1, 15),
-            ownerId=1
+            ownerId=1,
         ).__dict__
 
         # Act
         result = service.get_scheduled_workouts(
-            sport=GarminSport.CYCLING,
-            from_date=from_date,
-            to_date=to_date
+            sport=GarminSport.CYCLING, from_date=from_date, to_date=to_date
         )
 
         # Assert
         assert len(result) == 1
-        mock_client.get_training_plans.assert_called_once_with(active=True, sport=GarminSport.CYCLING)
-        mock_client.get_training_plan_by_id.assert_called_once_with("Training Plan Name")
+        mock_client.get_training_plans.assert_called_once_with(
+            active=True, sport=GarminSport.CYCLING
+        )
+        mock_client.get_training_plan_by_id.assert_called_once_with(
+            "Training Plan Name"
+        )
         mock_client.get_scheduled_workout_by_id.assert_called_once_with(12345)
 
     def test_get_power_zones_by_sport(self, service, mock_client):
         # Arrange
-        mock_client.get_power_zones.return_value = [p.__dict__ for p in garmin_power_zones("garmin_power_zones.json")]
+        mock_client.get_power_zones.return_value = [
+            p.__dict__ for p in garmin_power_zones("garmin_power_zones.json")
+        ]
 
         # Act
         result = service.get_power_zones_by_sport(GarminSport.CYCLING)

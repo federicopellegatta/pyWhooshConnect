@@ -11,10 +11,10 @@ class GarminTrainingPlanService:
         self.client = garmin_client
 
     def get_scheduled_workouts(
-            self,
-            sport: GarminSport,
-            from_date: date | datetime | None = None,
-            to_date: date | datetime | None = None
+        self,
+        sport: GarminSport,
+        from_date: date | datetime | None = None,
+        to_date: date | datetime | None = None,
     ) -> list[GarminScheduledWorkout]:
         """
         Get scheduled workouts for a specific sport within a date range.
@@ -29,8 +29,16 @@ class GarminTrainingPlanService:
         """
 
         # Normalize dates
-        from_date = from_date.date() if isinstance(from_date, datetime) else from_date or date.today()
-        to_date = to_date.date() if isinstance(to_date, datetime) else to_date or from_date + timedelta(days=90)
+        from_date = (
+            from_date.date()
+            if isinstance(from_date, datetime)
+            else from_date or date.today()
+        )
+        to_date = (
+            to_date.date()
+            if isinstance(to_date, datetime)
+            else to_date or from_date + timedelta(days=90)
+        )
         print(f"Fetching workouts for {sport.value} from {from_date} to {to_date}")
 
         # Get active plans
@@ -45,14 +53,23 @@ class GarminTrainingPlanService:
 
             for task in plan_detail.get("taskList", []):
                 task_workout = task["taskWorkout"]
-                if not task_workout or not task_workout.get("workoutId"):  # exclude rest days
+                if not task_workout or not task_workout.get(
+                    "workoutId"
+                ):  # exclude rest days
                     continue
 
-                workout_date = parse_date(task["calendarDate"]) or parse_datetime(task_workout["scheduledDate"]).date()
+                workout_date = (
+                    parse_date(task["calendarDate"])
+                    or parse_datetime(task_workout["scheduledDate"]).date()
+                )
 
                 if from_date <= workout_date <= to_date:
-                    scheduled_workout = self.client.get_scheduled_workout_by_id(task_workout["workoutScheduleId"])
-                    scheduled_workouts.append(GarminScheduledWorkout(**scheduled_workout))
+                    scheduled_workout = self.client.get_scheduled_workout_by_id(
+                        task_workout["workoutScheduleId"]
+                    )
+                    scheduled_workouts.append(
+                        GarminScheduledWorkout(**scheduled_workout)
+                    )
 
         return scheduled_workouts
 
@@ -72,4 +89,7 @@ class GarminTrainingPlanService:
         """
         power_zones = self.client.get_power_zones()
 
-        return next((GarminPowerZones(**p) for p in power_zones if p["sport"] == sport.name), None)
+        return next(
+            (GarminPowerZones(**p) for p in power_zones if p["sport"] == sport.name),
+            None,
+        )

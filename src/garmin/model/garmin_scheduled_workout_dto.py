@@ -31,4 +31,3 @@ class GarminScheduledWorkout:
     itp: bool = False
     nameChanged: bool = False
     protected: bool = False
-
