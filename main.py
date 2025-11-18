@@ -3,7 +3,10 @@ from datetime import datetime
 from typing import Optional
 
 from src import __title__, __version__, __description__
+from src.garmin.client.GarminClient import GarminClient
 from src.garmin.model.garmin_workout_dto import GarminSport
+from src.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
+
 
 def run_sync_logic(user: Optional[str], password: Optional[str], sport: Optional[str],
                    from_date: Optional[str], to_date: Optional[str]):
@@ -11,8 +14,8 @@ def run_sync_logic(user: Optional[str], password: Optional[str], sport: Optional
     Main function containing the application's synchronization and integration logic.
     """
     try:
-        start_date = datetime.strptime(from_date, '%Y-%m-%d').date() if from_date else None
-        end_date = datetime.strptime(to_date, '%Y-%m-%d').date() if to_date else None
+        start_date = datetime.strptime(from_date, '%Y-%m-%d') if from_date else None
+        end_date = datetime.strptime(to_date, '%Y-%m-%d') if to_date else None
     except ValueError:
         print("Error: Date format must be YYYY-MM-DD.")
         return
@@ -20,12 +23,21 @@ def run_sync_logic(user: Optional[str], password: Optional[str], sport: Optional
     try:
         sport = GarminSport[sport.upper()] if sport else GarminSport.CYCLING
     except KeyError:
-        print(
-            f"Error: sport not recognized. Valid options are: {', '.join([s.name for s in GarminSport])}.")
+        available_sports = ', '.join([s.name for s in GarminSport])
+        print(f"Error: sport not recognized. Valid options are: {available_sports}.")
         return
 
     # TODO If no user/password, attempt to load from environment variables
     # or fail the process later in your application logic.
+
+    print(f"Logging in with user f{user}")
+    client = GarminClient(user, password)
+    client.login()
+    print(f"{user} has been logged")
+
+    sync_service = GarminToMyWhooshWorkoutSyncService(client)
+    sync_service.sync_and_download_workouts(sport=sport, from_date=start_date,
+                                                       to_date=end_date)
 
     print("--- Application Finished ---")
 
