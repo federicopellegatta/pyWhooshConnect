@@ -1,7 +1,7 @@
 import argparse
 import getpass
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -76,6 +76,14 @@ def run_sync_logic(
     print("--- Application Finished ---")
 
 
+def default_from_date():
+    return datetime.today().strftime("%Y-%m-%d")
+
+
+def default_to_date():
+    return (datetime.today() + timedelta(days=7)).strftime("%Y-%m-%d")
+
+
 def main():
     width: int = 50
 
@@ -83,10 +91,12 @@ def main():
     print(f"{__title__} v{__version__}".center(width))
     print(f"{__description__}".center(width))
     print("=" * width)
+    print("")
 
     parser = argparse.ArgumentParser(
-        description="Synchronize workout data between services.",
-        epilog="Example: python main.py --user=john.doe --from_date=2025-01-01",
+        description="Synchronize workouts from Garmin to MyWhoosh.",
+        epilog="Example: python main.py --user=john.doe@example.com --from_date=2025-01-01",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -98,25 +108,26 @@ def main():
     parser.add_argument(
         "--sport",
         type=str,
+        choices=["cycling", "running", "cross_country_skiing"],
         default="cycling",
-        help="Filter by sport type (e.g., cycling, running, cross_country_skiing). Optional.",
+        help="Filter by sport type (optional).",
     )
     parser.add_argument(
         "--from_date",
         type=str,
-        default=None,
+        default=default_from_date(),
         help="Start date of the synchronization range [YYYY-MM-DD] (optional).",
     )
     parser.add_argument(
         "--to_date",
         type=str,
-        default=None,
+        default=default_to_date(),
         help="End date of the synchronization range [YYYY-MM-DD] (optional).",
     )
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=None,
+        default="~/downloads/",
         help="Directory where files will be saved (default: system downloads folder)",
     )
 
