@@ -145,7 +145,6 @@ def main():
         help="Directory where files will be saved (default: system downloads folder)",
     )
     parser.add_argument(
-        "--config",
         "--config_file",
         type=str,
         default=None,
