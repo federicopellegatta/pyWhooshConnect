@@ -127,25 +127,25 @@ def main():
         help="Filter by sport type (optional).",
     )
     parser.add_argument(
-        "--from_date",
+        "--from-date",
         type=str,
         default=default_from_date(),
         help="Start date of the synchronization range [YYYY-MM-DD] (optional).",
     )
     parser.add_argument(
-        "--to_date",
+        "--to-date",
         type=str,
         default=default_to_date(),
         help="End date of the synchronization range [YYYY-MM-DD] (optional).",
     )
     parser.add_argument(
-        "--output_dir",
+        "--output-dir",
         type=str,
         default="~/downloads/",
         help="Directory where files will be saved (default: system downloads folder)",
     )
     parser.add_argument(
-        "--config_file",
+        "--config-file",
         type=str,
         default=None,
         help="Path to the YAML configuration file (power zones, lap button duration, etc.)",
