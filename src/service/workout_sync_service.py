@@ -54,7 +54,7 @@ class GarminToMyWhooshWorkoutSyncService:
         mywhoosh_workouts = []
         for garmin_workout in garmin_workouts:
             generic_workout = GarminToGenericScheduledWorkoutMapper().map(
-                garmin_workout
+                garmin_workout, power_zones_options
             )
             mywhoosh_workout = GenericToMyWhooshWorkoutMapper().map(
                 generic_workout, power_zones_options

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 from typing import Dict
 
@@ -26,6 +27,7 @@ class PowerZoneConfig:
     # Default values if config file is missing or incomplete
     DEFAULT_ZONE_WEIGHT = 0.5
     DEFAULT_ZONE7_MULTIPLIER = 1.1
+    DEFAULT_LAP_BUTTON_DURATION_SECONDS = 30
 
     def __init__(self, config_path: str = None, config_dict: dict = None):
         """
@@ -38,7 +40,8 @@ class PowerZoneConfig:
         ----------
         config_path : str, optional
             Path to the YAML configuration file containing power zone settings.
-            Defaults to "config/power_zones_config.yml" relative to the project root if not provided.
+            Defaults to "config/power_zones_config.yml" relative to the project root if not
+            provided.
         config_dict : dict, optional
             Dictionary containing power zone configuration. If provided, this will be used
             instead of loading from a file.
@@ -108,3 +111,10 @@ class PowerZoneConfig:
                 f"Invalid multiplier for zone 7: must be greater than or equal to 1, got {zone7_multiplier}"
             )
         return zone7_multiplier
+
+    def get_lap_button_duration(self) -> timedelta:
+        """Get the lap button duration from config"""
+        lap_button_duration_seconds = self.config.get(
+            "lap_button_duration_seconds", self.DEFAULT_LAP_BUTTON_DURATION_SECONDS
+        )
+        return timedelta(seconds=lap_button_duration_seconds)

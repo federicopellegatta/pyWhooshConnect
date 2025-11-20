@@ -12,8 +12,6 @@ TTarget = TypeVar("TTarget")
 class MapperOptions(ABC):
     """Base class for mapper options."""
 
-    ...
-
 
 @dataclass
 class PowerZonesOptions(MapperOptions):
