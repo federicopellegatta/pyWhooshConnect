@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Optional
 
-from src.common.mapper.base import BaseMapper, MapperOptions
+from src.common.mapper.base import BaseMapper, MapperOptions, PowerZonesOptions
 from src.common.model.generic_workout import (
     GenericWorkout,
     GenericAtomicStep,
@@ -23,7 +23,6 @@ class GarminToGenericStepMapper(BaseMapper[GarminWorkoutStep, TStepTarget], ABC)
         self, garmin: GarminWorkoutStep, options: Optional[MapperOptions] = None
     ) -> TStepTarget:
         """Convert a Garmin step into a generic step."""
-        ...
 
     @staticmethod
     def _calculate_step_duration_in_seconds(
@@ -59,16 +58,20 @@ class GarminToStepTypeMapper(GarminToGenericStepMapper[StepType]):
 
 class GarminToGenericAtomicStepMapper(GarminToGenericStepMapper[GenericAtomicStep]):
     def map(
-        self, garmin: GarminWorkoutStep, options: Optional[MapperOptions] = None
+        self, garmin: GarminWorkoutStep, options: Optional[PowerZonesOptions] = None
     ) -> GenericAtomicStep:
         if garmin.workoutSteps:
             raise ValueError(
                 "Garmin step has intervals. You should use GarminToGenericStepWithIntervals"
             )
 
+        duration_in_seconds = self._calculate_step_duration_in_seconds(
+            garmin, int(options.config.get_lap_button_duration().total_seconds())
+        )
+
         return GenericAtomicStep(
             step_id=garmin.stepOrder,
-            duration_in_seconds=self._calculate_step_duration_in_seconds(garmin),
+            duration_in_seconds=duration_in_seconds,
             power_zone=garmin.zoneNumber,
             type=GarminToStepTypeMapper().map(garmin),
             description=garmin.description,
@@ -135,14 +138,14 @@ class GarminToGenericWorkoutMapper(BaseMapper[GarminWorkout, GenericWorkout]):
     atomic_step_mapper = GarminToGenericAtomicStepMapper()
 
     def map(
-        self, garmin: GarminWorkout, options: Optional[MapperOptions] = None
+        self, garmin: GarminWorkout, options: Optional[PowerZonesOptions] = None
     ) -> GenericWorkout:
         workout = GenericWorkout(
             name=garmin.workoutName,
             description=garmin.description,
             sport=garmin.sportType.sportTypeKey.lower(),
             steps=[
-                self._select_step_mapper(step).map(step)
+                self._select_step_mapper(step).map(step, options)
                 for segment in garmin.workoutSegments
                 for step in segment.workoutSteps
             ],
@@ -167,6 +170,6 @@ class GarminToGenericScheduledWorkoutMapper(
     def map(
         self, garmin: GarminScheduledWorkout, options: Optional[MapperOptions] = None
     ) -> GenericWorkout:
-        workout = self.workout_mapper.map(garmin.workout)
+        workout = self.workout_mapper.map(garmin.workout, options)
         workout.scheduled_date = garmin.calendarDate
         return workout
