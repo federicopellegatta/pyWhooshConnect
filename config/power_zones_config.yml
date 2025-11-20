@@ -1,4 +1,9 @@
 # Power Zones Configuration
+
+# The duration (in seconds) for workout steps that end
+# with a manual lap button press
+lap_button_duration_seconds: 30
+
 power_zones:
   # Default weight for calculating power within a zone
   # Default value is 0.5 if not specified
@@ -9,9 +14,9 @@ power_zones:
   # Per-zone configuration (optional overrides)
   zones:
     1:
-      weight: 0.7  # Zone 1: use lower end of range
+      weight: 0.6  # Zone 1: use lower end of range
     7:
       # Multiplier for zone 7 (which has infinite ceiling)
       # Default value is 1.1, if not specified
       # Formula: floor * zone7_multiplier
-      multiplier: 1.2
+      multiplier: 1.1
