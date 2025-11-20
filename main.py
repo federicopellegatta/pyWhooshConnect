@@ -2,6 +2,7 @@ import argparse
 import getpass
 import os
 from datetime import datetime
+from pathlib import Path
 from typing import Optional
 
 from src import __title__, __version__, __description__
@@ -16,6 +17,7 @@ def run_sync_logic(
     sport: Optional[str],
     from_date: Optional[str],
     to_date: Optional[str],
+    output_dir: Optional[str],
 ):
     """
     Main function containing the application's synchronization and integration logic.
@@ -44,6 +46,16 @@ def run_sync_logic(
         if not password:
             password = getpass.getpass("Enter Garmin password: ")
 
+    if not output_dir:
+        output_dir = "~/downloads/"
+
+    output_path = Path(output_dir).expanduser()
+    if not output_path.exists():
+        output_path.mkdir(parents=True, exist_ok=True)
+        print(f"Created output directory: {output_path}")
+
+    print(f"Files will be saved to: {output_path}")
+
     print(f"Logging in with user f{user}")
     client = GarminClient(user, password)
     client.login()
@@ -51,7 +63,7 @@ def run_sync_logic(
 
     sync_service = GarminToMyWhooshWorkoutSyncService(client)
     sync_service.sync_and_download_workouts(
-        sport=sport, from_date=start_date, to_date=end_date
+        sport=sport, from_date=start_date, to_date=end_date, output_dir=str(output_path)
     )
 
     print("--- Application Finished ---")
@@ -95,11 +107,24 @@ def main():
         default=None,
         help="End date of the synchronization range [YYYY-MM-DD] (optional).",
     )
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default=None,
+        help="Directory where files will be saved (default: system downloads folder)",
+    )
 
     args = parser.parse_args()
 
     # Call the core application logic
-    run_sync_logic(args.user, args.password, args.sport, args.from_date, args.to_date)
+    run_sync_logic(
+        args.user,
+        args.password,
+        args.sport,
+        args.from_date,
+        args.to_date,
+        args.output_dir,
+    )
 
 
 if __name__ == "__main__":
