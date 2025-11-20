@@ -5,10 +5,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+from rich.console import Console
+
 from src import __title__, __version__, __description__
 from src.garmin.client.GarminClient import GarminClient
 from src.garmin.model.garmin_workout_dto import GarminSport
 from src.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
+
+console = Console()
 
 
 def run_sync_logic(
@@ -57,10 +61,11 @@ def run_sync_logic(
     print(f"Files will be saved to: {output_path}")
 
     # Authenticate with Garmin Connect
-    print(f"Logging in as '{user}'")
-    client = GarminClient(user, password)
-    client.login()
-    print(f"Successfully logged in as '{user}'")
+    with console.status(f"[bold green]Logging in as '{user}'...", spinner="dots"):
+        client = GarminClient(user, password)
+        client.login()
+
+    console.print(f"[green]✓[/green] Successfully logged in as '{user}'")
 
     # Sync and download workouts
     sync_service = GarminToMyWhooshWorkoutSyncService(client)
@@ -78,7 +83,6 @@ def main():
     print(f"{__title__} v{__version__}".center(width))
     print(f"{__description__}".center(width))
     print("=" * width)
-    print("\n✓ Application started successfully!")
 
     parser = argparse.ArgumentParser(
         description="Synchronize workout data between services.",
