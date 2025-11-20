@@ -22,6 +22,7 @@ def run_sync_logic(
     """
     Main function containing the application's synchronization and integration logic.
     """
+    # Parse and validate input params
     try:
         start_date = datetime.strptime(from_date, "%Y-%m-%d") if from_date else None
         end_date = datetime.strptime(to_date, "%Y-%m-%d") if to_date else None
@@ -53,14 +54,15 @@ def run_sync_logic(
     if not output_path.exists():
         output_path.mkdir(parents=True, exist_ok=True)
         print(f"Created output directory: {output_path}")
-
     print(f"Files will be saved to: {output_path}")
 
-    print(f"Logging in with user f{user}")
+    # Authenticate with Garmin Connect
+    print(f"Logging in as '{user}'")
     client = GarminClient(user, password)
     client.login()
-    print(f"{user} has been logged")
+    print(f"Successfully logged in as '{user}'")
 
+    # Sync and download workouts
     sync_service = GarminToMyWhooshWorkoutSyncService(client)
     sync_service.sync_and_download_workouts(
         sport=sport, from_date=start_date, to_date=end_date, output_dir=str(output_path)
