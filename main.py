@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+from garminconnect import GarminConnectAuthenticationError
 from rich.console import Console
 
 from src import __title__, __version__, __description__
@@ -17,13 +18,13 @@ console = Console()
 
 
 def run_sync_logic(
-    user: Optional[str],
-    password: Optional[str],
-    sport: Optional[str],
-    from_date: Optional[str],
-    to_date: Optional[str],
-    output_dir: Optional[str],
-    config_file: Optional[str],
+        user: Optional[str],
+        password: Optional[str],
+        sport: Optional[str],
+        from_date: Optional[str],
+        to_date: Optional[str],
+        output_dir: Optional[str],
+        config_file: Optional[str],
 ):
     """
     Main function containing the application's synchronization and integration logic.
@@ -69,11 +70,14 @@ def run_sync_logic(
     print(f"Files will be saved to: {output_path}")
 
     # Authenticate with Garmin Connect
-    with console.status(f"[bold green]Logging in as '{user}'...", spinner="dots"):
-        client = GarminClient(user, password)
-        client.login()
-
-    console.print(f"[green]✓[/green] Successfully logged in as '{user}'")
+    try:
+        with console.status(f"[bold green]Logging in as '{user}'...", spinner="dots"):
+            client = GarminClient(user, password)
+            client.login()
+        console.print(f"[green]✓[/green] Successfully logged in as '{user}'")
+    except GarminConnectAuthenticationError as e:
+        console.print(f"[red]✗ Login failed:[/red] {e}")
+        sys.exit(1)
 
     # Sync and download workouts
     sync_service = GarminToMyWhooshWorkoutSyncService(client)
