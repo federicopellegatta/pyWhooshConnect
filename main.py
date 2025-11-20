@@ -77,7 +77,11 @@ def run_sync_logic(
     # Sync and download workouts
     sync_service = GarminToMyWhooshWorkoutSyncService(client)
     sync_service.sync_and_download_workouts(
-        sport=sport, from_date=start_date, to_date=end_date, output_dir=str(output_path)
+        sport=sport,
+        from_date=start_date,
+        to_date=end_date,
+        output_dir=str(output_path),
+        config_file=config_file,
     )
 
     print("--- Application Finished ---")
