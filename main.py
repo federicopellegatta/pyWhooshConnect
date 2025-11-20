@@ -22,6 +22,7 @@ def run_sync_logic(
     from_date: Optional[str],
     to_date: Optional[str],
     output_dir: Optional[str],
+    config_file: Optional[str],
 ):
     """
     Main function containing the application's synchronization and integration logic.
@@ -50,6 +51,12 @@ def run_sync_logic(
         password = os.getenv("GARMIN_PASSWORD")
         if not password:
             password = getpass.getpass("Enter Garmin password: ")
+
+    config_path = Path(config_file).expanduser() if config_file else None
+    if config_path and config_path.exists():
+        print(f"Using configuration from: {config_path}")
+    else:
+        print("Configuration file not found or not specified. Using default values.")
 
     if not output_dir:
         output_dir = "~/downloads/"
@@ -130,6 +137,13 @@ def main():
         default="~/downloads/",
         help="Directory where files will be saved (default: system downloads folder)",
     )
+    parser.add_argument(
+        "--config",
+        "--config_file",
+        type=str,
+        default=None,
+        help="Path to the YAML configuration file (power zones, lap button duration, etc.)",
+    )
 
     args = parser.parse_args()
 
@@ -141,6 +155,7 @@ def main():
         args.from_date,
         args.to_date,
         args.output_dir,
+        args.config_file,
     )
 
 
