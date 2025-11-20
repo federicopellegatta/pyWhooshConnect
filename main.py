@@ -1,6 +1,7 @@
 import argparse
 import getpass
 import os
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
@@ -33,14 +34,14 @@ def run_sync_logic(
         end_date = datetime.strptime(to_date, "%Y-%m-%d") if to_date else None
     except ValueError:
         print("Error: Date format must be YYYY-MM-DD.")
-        return
+        sys.exit(1)
 
     try:
         sport = GarminSport[sport.upper()] if sport else GarminSport.CYCLING
     except KeyError:
         available_sports = ", ".join([s.name for s in GarminSport])
         print(f"Error: sport not recognized. Valid options are: {available_sports}.")
-        return
+        sys.exit(1)
 
     if not user:
         user = os.getenv("GARMIN_USER")
