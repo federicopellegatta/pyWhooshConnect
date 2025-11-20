@@ -84,8 +84,6 @@ def run_sync_logic(
         config_file=config_file,
     )
 
-    print("--- Application Finished ---")
-
 
 def default_from_date():
     return datetime.today().strftime("%Y-%m-%d")
