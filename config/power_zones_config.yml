@@ -1,4 +1,6 @@
 # Power Zones Configuration
+lap_button_duration_seconds: 30
+
 power_zones:
   # Default weight for calculating power within a zone
   # Default value is 0.5 if not specified
