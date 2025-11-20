@@ -1,4 +1,7 @@
 # Power Zones Configuration
+
+# The duration (in seconds) for workout steps that end
+# with a manual lap button press
 lap_button_duration_seconds: 30
 
 power_zones:
