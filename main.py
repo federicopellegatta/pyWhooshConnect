@@ -1,4 +1,6 @@
 import argparse
+import getpass
+import os
 from datetime import datetime
 from typing import Optional
 
@@ -32,8 +34,15 @@ def run_sync_logic(
         print(f"Error: sport not recognized. Valid options are: {available_sports}.")
         return
 
-    # TODO If no user/password, attempt to load from environment variables
-    # or fail the process later in your application logic.
+    if not user:
+        user = os.getenv("GARMIN_USER")
+        if not user:
+            user = input("Enter Garmin username: ")
+
+    if not password:
+        password = os.getenv("GARMIN_PASSWORD")
+        if not password:
+            password = getpass.getpass("Enter Garmin password: ")
 
     print(f"Logging in with user f{user}")
     client = GarminClient(user, password)
