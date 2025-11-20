@@ -4,18 +4,21 @@ from pathlib import Path
 
 import pytest
 
+from src.common.mapper.base import PowerZonesOptions
 from src.common.model.generic_workout import (
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
     GenericWorkout,
 )
+from src.common.model.power_zones import PowerZones
 from src.garmin.mapper.garmin_to_generic_workout import (
     GarminToGenericWorkoutMapper,
     GarminToGenericScheduledWorkoutMapper,
 )
 from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
 from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
+from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
 
 def json_path(filename: str) -> Path:
@@ -35,9 +38,22 @@ def garmin_workout(request):
 
 
 @pytest.fixture
-def generic_workout(garmin_workout):
+def power_zones_options():
+    power_zones = PowerZones(ftp=300)
+    config_dict = {
+        "lap_button_duration_seconds": 60,
+        "power_zones": {
+            "default_zone_weight": 0.5,
+            "zones": {1: {"weight": 0.6}},
+        },
+    }
+    return PowerZonesOptions(power_zones, PowerZoneConfig(config_dict=config_dict))
+
+
+@pytest.fixture
+def generic_workout(garmin_workout, power_zones_options):
     """Map GarminWorkout to GenericWorkout."""
-    return GarminToGenericWorkoutMapper().map(garmin_workout)
+    return GarminToGenericWorkoutMapper().map(garmin_workout, power_zones_options)
 
 
 def _get_step_with_intervals(
@@ -118,7 +134,9 @@ class TestGarminToGenericWorkoutMapper:
         )
         assert generic_interval_step.power_zone == garmin_interval_step.zoneNumber
 
-    def test_scheduled_workout_mapping(self, garmin_workout, generic_workout):
+    def test_scheduled_workout_mapping(
+        self, garmin_workout, generic_workout, power_zones_options
+    ):
         """Test that a scheduled workout is correctly mapped to generic workout."""
         garmin_scheduled_workout = GarminScheduledWorkout(
             workoutScheduleId=1,
@@ -129,7 +147,7 @@ class TestGarminToGenericWorkoutMapper:
         )
 
         generic_scheduled_workout = GarminToGenericScheduledWorkoutMapper().map(
-            garmin_scheduled_workout
+            garmin_scheduled_workout, power_zones_options
         )
 
         generic_workout.scheduled_date = garmin_scheduled_workout.calendarDate
