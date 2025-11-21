@@ -1,5 +1,0 @@
-garminconnect>=0.2.30
-pydantic
-pyyaml
-rich
-python-dotenv

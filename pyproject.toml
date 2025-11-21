@@ -1,4 +1,47 @@
 [tool.pytest.ini_options]
 pythonpath = [
-  ".", "pywhooshconnect",
+    ".", "pywhooshconnect",
 ]
+
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pywhooshconnect"
+version = "0.1.0"
+description = "Sync your workouts from Garmin to MyWhoosh"
+readme = "README.md"
+requires-python = ">=3.8"
+license-files = ["LICEN[CS]E*"]
+authors = [
+    { name = "Federico Pellegatta", email = "pellegatta.federico@gmail.com" }
+]
+keywords = ["mywhoosh", "garmin", "garminconnect", "cycling", "indoor", "training", "workouts"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+
+dependencies = [
+    "garminconnect>=0.2.30",
+    "pydantic",
+    "pyyaml",
+    "rich",
+    "python-dotenv",
+]
+
+# Dipendenze da requirements-dev.txt
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock",
+    "pylint",
+    "black",
+]
+
+[project.urls]
+Homepage = "https://github.com/federicopellegatta/pyWhooshConnect"
+Repository = "https://github.com/federicopellegatta/pyWhooshConnect"
+Issues = "https://github.com/federicopellegatta/pyWhooshConnect/issues"
