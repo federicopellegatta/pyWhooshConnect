@@ -5,10 +5,14 @@ from typing import List
 
 import pytest
 
-from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
-from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
-from src.garmin.model.garmin_workout_dto import GarminSport, GarminWorkout
-from src.garmin.service.garmin_training_plan_service import GarminTrainingPlanService
+from pywhooshconnect.garmin.model.garmin_power_zones_dto import GarminPowerZones
+from pywhooshconnect.garmin.model.garmin_scheduled_workout_dto import (
+    GarminScheduledWorkout,
+)
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport, GarminWorkout
+from pywhooshconnect.garmin.service.garmin_training_plan_service import (
+    GarminTrainingPlanService,
+)
 
 
 def json_path(filename: str) -> Path:

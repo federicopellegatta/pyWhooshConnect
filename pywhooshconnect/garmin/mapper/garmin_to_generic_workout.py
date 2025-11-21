@@ -1,16 +1,28 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Optional
 
-from src.common.mapper.base import BaseMapper, MapperOptions, PowerZonesOptions
-from src.common.model.generic_workout import (
+from pywhooshconnect.common.mapper.base import (
+    BaseMapper,
+    MapperOptions,
+    PowerZonesOptions,
+)
+from pywhooshconnect.common.model.generic_workout import (
     GenericWorkout,
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
 )
-from src.common.model.generic_workout_step import GenericWorkoutStep, StepType
-from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
-from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
+from pywhooshconnect.common.model.generic_workout_step import (
+    GenericWorkoutStep,
+    StepType,
+)
+from pywhooshconnect.garmin.model.garmin_scheduled_workout_dto import (
+    GarminScheduledWorkout,
+)
+from pywhooshconnect.garmin.model.garmin_workout_dto import (
+    GarminWorkout,
+    GarminWorkoutStep,
+)
 
 TStepTarget = TypeVar("TStepTarget", bound=GenericWorkoutStep)
 

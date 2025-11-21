@@ -24,7 +24,7 @@ jobs:
 
       - name: Check Formatting with Black
         run: |
-          black --check --diff src/ tests/
+          black --check --diff pywhooshconnect/ tests/
 
       - name: Lint with Pylint (fail on errors only)
         if: success() || failure()

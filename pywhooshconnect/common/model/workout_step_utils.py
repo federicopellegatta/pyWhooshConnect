@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Generic, List, TypeVar
 
-from src.common.model.generic_workout import GenericWorkoutStep
+from pywhooshconnect.common.model.generic_workout import GenericWorkoutStep
 
 T = TypeVar("T", bound=GenericWorkoutStep)
 

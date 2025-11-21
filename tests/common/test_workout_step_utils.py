@@ -2,13 +2,13 @@ from datetime import timedelta
 
 import pytest
 
-from src.common.model.generic_workout import (
+from pywhooshconnect.common.model.generic_workout import (
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericWorkout,
     GenericIntervalStep,
 )
-from src.common.model.generic_workout_step import StepType
+from pywhooshconnect.common.model.generic_workout_step import StepType
 
 
 @pytest.fixture

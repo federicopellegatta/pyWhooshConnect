@@ -1,15 +1,25 @@
 import re
 from typing import List, Optional
 
-from src.common.mapper.base import BaseMapper, PowerZonesOptions, MapperOptions
-from src.common.model.generic_workout import (
+from pywhooshconnect.common.mapper.base import (
+    BaseMapper,
+    PowerZonesOptions,
+    MapperOptions,
+)
+from pywhooshconnect.common.model.generic_workout import (
     GenericWorkout,
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
 )
-from src.common.model.generic_workout_step import GenericWorkoutStep, StepType
-from src.mywhoosh.model.mywhoosh_workout_dto import MyWhooshWorkout, MyWhooshWorkoutStep
+from pywhooshconnect.common.model.generic_workout_step import (
+    GenericWorkoutStep,
+    StepType,
+)
+from pywhooshconnect.mywhoosh.model.mywhoosh_workout_dto import (
+    MyWhooshWorkout,
+    MyWhooshWorkoutStep,
+)
 
 
 def _name(workout: GenericWorkout) -> str:

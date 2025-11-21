@@ -10,7 +10,7 @@ from typing import Optional
 
 from pydantic.dataclasses import dataclass
 
-from src.garmin.model.garmin_workout_dto import GarminWorkout
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminWorkout
 
 
 @dataclass

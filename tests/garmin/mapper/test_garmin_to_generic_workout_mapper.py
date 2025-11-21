@@ -4,21 +4,26 @@ from pathlib import Path
 
 import pytest
 
-from src.common.mapper.base import PowerZonesOptions
-from src.common.model.generic_workout import (
+from pywhooshconnect.common.mapper.base import PowerZonesOptions
+from pywhooshconnect.common.model.generic_workout import (
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
     GenericWorkout,
 )
-from src.common.model.power_zones import PowerZones
-from src.garmin.mapper.garmin_to_generic_workout import (
+from pywhooshconnect.common.model.power_zones import PowerZones
+from pywhooshconnect.garmin.mapper.garmin_to_generic_workout import (
     GarminToGenericWorkoutMapper,
     GarminToGenericScheduledWorkoutMapper,
 )
-from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
-from src.garmin.model.garmin_workout_dto import GarminWorkout, GarminWorkoutStep
-from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
+from pywhooshconnect.garmin.model.garmin_scheduled_workout_dto import (
+    GarminScheduledWorkout,
+)
+from pywhooshconnect.garmin.model.garmin_workout_dto import (
+    GarminWorkout,
+    GarminWorkoutStep,
+)
+from pywhooshconnect.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
 
 def json_path(filename: str) -> Path:

@@ -2,8 +2,11 @@ from dataclasses import dataclass
 from datetime import timedelta, date
 from typing import List, Optional
 
-from src.common.model.generic_workout_step import GenericWorkoutStep, StepType
-from src.common.model.workout_step_utils import StepContainerMixin
+from pywhooshconnect.common.model.generic_workout_step import (
+    GenericWorkoutStep,
+    StepType,
+)
+from pywhooshconnect.common.model.workout_step_utils import StepContainerMixin
 
 
 @dataclass

@@ -3,19 +3,23 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, List
 
-from src.common.mapper.base import PowerZonesOptions
-from src.garmin.client.GarminClient import GarminClient
-from src.garmin.mapper.garmin_to_generic_power_zones import (
+from pywhooshconnect.common.mapper.base import PowerZonesOptions
+from pywhooshconnect.garmin.client.GarminClient import GarminClient
+from pywhooshconnect.garmin.mapper.garmin_to_generic_power_zones import (
     GarminToGenericPowerZonesMapper,
 )
-from src.garmin.mapper.garmin_to_generic_workout import (
+from pywhooshconnect.garmin.mapper.garmin_to_generic_workout import (
     GarminToGenericScheduledWorkoutMapper,
 )
-from src.garmin.model.garmin_workout_dto import GarminSport
-from src.garmin.service.garmin_training_plan_service import GarminTrainingPlanService
-from src.mywhoosh.mapper.generic_to_mywhoosh import GenericToMyWhooshWorkoutMapper
-from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
-from src.mywhoosh.model.mywhoosh_workout_dto import MyWhooshWorkout
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport
+from pywhooshconnect.garmin.service.garmin_training_plan_service import (
+    GarminTrainingPlanService,
+)
+from pywhooshconnect.mywhoosh.mapper.generic_to_mywhoosh import (
+    GenericToMyWhooshWorkoutMapper,
+)
+from pywhooshconnect.mywhoosh.mapper.power_zones_config import PowerZoneConfig
+from pywhooshconnect.mywhoosh.model.mywhoosh_workout_dto import MyWhooshWorkout
 
 
 class GarminToMyWhooshWorkoutSyncService:
