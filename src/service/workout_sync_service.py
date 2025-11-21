@@ -14,6 +14,7 @@ from src.garmin.mapper.garmin_to_generic_workout import (
 from src.garmin.model.garmin_workout_dto import GarminSport
 from src.garmin.service.garmin_training_plan_service import GarminTrainingPlanService
 from src.mywhoosh.mapper.generic_to_mywhoosh import GenericToMyWhooshWorkoutMapper
+from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 from src.mywhoosh.model.mywhoosh_workout_dto import MyWhooshWorkout
 
 
@@ -36,6 +37,7 @@ class GarminToMyWhooshWorkoutSyncService:
         sport: GarminSport,
         from_date: datetime = datetime.today(),
         to_date: Optional[datetime] = None,
+        config_file: Optional[Path] = None,
     ) -> List[MyWhooshWorkout]:
         # Retrieve Garmin workouts
         to_date = to_date if to_date is not None else (from_date + timedelta(days=7))
@@ -48,7 +50,11 @@ class GarminToMyWhooshWorkoutSyncService:
             sport=sport
         )
         power_zones = GarminToGenericPowerZonesMapper().map(garmin_power_zones)
-        power_zones_options = PowerZonesOptions(power_zones=power_zones)
+        config_file_str = str(config_file) if config_file is not None else None
+        power_zones_config = PowerZoneConfig(config_path=config_file_str)
+        power_zones_options = PowerZonesOptions(
+            power_zones=power_zones, config=power_zones_config
+        )
 
         # Map each Garmin workout to MyWhoosh format and return it
         mywhoosh_workouts = []
@@ -69,8 +75,9 @@ class GarminToMyWhooshWorkoutSyncService:
         from_date: datetime = datetime.today(),
         to_date: Optional[datetime] = None,
         output_dir: str = "~/downloads/",
+        config_file: Optional[Path] = None,
     ):
-        mywhoosh_workouts = self.sync_workouts(sport, from_date, to_date)
+        mywhoosh_workouts = self.sync_workouts(sport, from_date, to_date, config_file)
 
         # Map each Garmin workout to MyWhoosh format and save it
         for mywhoosh_workout in mywhoosh_workouts:
