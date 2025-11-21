@@ -16,12 +16,22 @@ configuration of power zones and workout parameters through YAML configuration f
 
 ## Installation
 
-**Requirements:** Python 3.13+ (tested with Python 3.13)
+**Requirements:** Python 3.8+ (tested with Python 3.13)
 
+### For Users
+
+Install directly from PyPI:
 ```bash
-   python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   pip install -r requirements-dev.txt # optional, required only for development
+pip install pywhooshconnect
+```
+
+### For Contributors
+
+Clone the repository and install in development mode:
+```bash
+git clone https://github.com/federicopellegatta/pyWhooshConnect.git
+cd pyWhooshConnect
+pip install -e ".[dev]"
 ```
 
 **Note:** This tool uses [garminconnect](https://github.com/cyberjunky/python-garminconnect) library
