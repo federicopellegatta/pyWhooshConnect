@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from garminconnect import GarminConnectAuthenticationError
 from rich.console import Console
 
@@ -15,6 +16,7 @@ from src.garmin.model.garmin_workout_dto import GarminSport
 from src.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
 
 console = Console()
+load_dotenv()
 
 
 def run_sync_logic(
