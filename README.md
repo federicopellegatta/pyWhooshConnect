@@ -62,7 +62,7 @@ You can customize power zones and workout parameters using a YAML configuration 
 `--config-file` option.
 
 If no configuration file is specified, the tool uses the default configuration from [
-`config/power_zones_config.yml`](config/power_zones_config.yml).
+`config/power_zones_config.yml`](pywhooshconnect/config/power_zones_config.yml).
 
 ### Output
 

@@ -40,8 +40,7 @@ class PowerZoneConfig:
         ----------
         config_path : str, optional
             Path to the YAML configuration file containing power zone settings.
-            Defaults to "config/power_zones_config.yml" relative to the project root if not
-            provided.
+            If not provided, uses the default configuration bundled with the package.
         config_dict : dict, optional
             Dictionary containing power zone configuration. If provided, this will be used
             instead of loading from a file.
@@ -55,7 +54,7 @@ class PowerZoneConfig:
             self.config = config_dict
         else:
             if config_path is None:
-                project_root = Path(__file__).parent.parent.parent.parent
+                project_root = Path(__file__).parent.parent.parent
                 config_path = project_root / "config" / "power_zones_config.yml"
 
             try:
