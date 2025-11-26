@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TypeVar, Generic, Optional
 
-from src.common.model.power_zones import PowerZones
-from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
+from pywhooshconnect.common.model.power_zones import PowerZones
+from pywhooshconnect.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
 TSource = TypeVar("TSource")
 TTarget = TypeVar("TTarget")

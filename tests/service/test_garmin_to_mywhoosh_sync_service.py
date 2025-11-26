@@ -4,8 +4,10 @@ from pathlib import Path
 
 import pytest
 
-from src.garmin.model.garmin_workout_dto import GarminSport
-from src.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport
+from pywhooshconnect.service.workout_sync_service import (
+    GarminToMyWhooshWorkoutSyncService,
+)
 
 
 def json_path(filename: str) -> Path:
@@ -61,7 +63,7 @@ class TestGarminToMyWhooshWorkoutSyncService:
         """Test that workouts are synchronized and files are created without writing to disk."""
         # Mock file operations to prevent actual file writes
         mock_file = mocker.mock_open()
-        mocker.patch("src.service.workout_sync_service.open", mock_file)
+        mocker.patch("pywhooshconnect.service.workout_sync_service.open", mock_file)
 
         output_dir = "~/downloads/"
 

@@ -10,10 +10,10 @@ from dotenv import load_dotenv
 from garminconnect import GarminConnectAuthenticationError
 from rich.console import Console
 
-from src import __title__, __version__, __description__
-from src.garmin.client.GarminClient import GarminClient
-from src.garmin.model.garmin_workout_dto import GarminSport
-from src.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
+from pywhooshconnect import __title__, __version__, __description__
+from pywhooshconnect.garmin.client.GarminClient import GarminClient
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport
+from pywhooshconnect.service.workout_sync_service import GarminToMyWhooshWorkoutSyncService
 
 console = Console()
 load_dotenv()

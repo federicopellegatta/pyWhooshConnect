@@ -1,10 +1,10 @@
 import pytest
 
-from src.common.model.power_zones import PowerZones
-from src.garmin.mapper.garmin_to_generic_power_zones import (
+from pywhooshconnect.common.model.power_zones import PowerZones
+from pywhooshconnect.garmin.mapper.garmin_to_generic_power_zones import (
     GarminToGenericPowerZonesMapper,
 )
-from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
+from pywhooshconnect.garmin.model.garmin_power_zones_dto import GarminPowerZones
 
 
 @pytest.fixture

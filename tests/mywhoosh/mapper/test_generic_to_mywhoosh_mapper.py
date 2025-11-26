@@ -2,21 +2,21 @@ from datetime import datetime
 
 import pytest
 
-from src.common.mapper.base import PowerZonesOptions
-from src.common.model.generic_workout import (
+from pywhooshconnect.common.mapper.base import PowerZonesOptions
+from pywhooshconnect.common.model.generic_workout import (
     GenericWorkout,
     GenericAtomicStep,
     GenericStepWithIntervals,
     GenericIntervalStep,
 )
-from src.common.model.generic_workout_step import StepType
-from src.common.model.power_zones import PowerZones
-from src.mywhoosh.mapper.generic_to_mywhoosh import (
+from pywhooshconnect.common.model.generic_workout_step import StepType
+from pywhooshconnect.common.model.power_zones import PowerZones
+from pywhooshconnect.mywhoosh.mapper.generic_to_mywhoosh import (
     GenericToMyWhooshPowerMapper,
     GenericToMyWhooshStepMapper,
     GenericToMyWhooshWorkoutMapper,
 )
-from src.mywhoosh.mapper.power_zones_config import PowerZoneConfig
+from pywhooshconnect.mywhoosh.mapper.power_zones_config import PowerZoneConfig
 
 
 @pytest.fixture

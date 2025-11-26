@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from src.common.model.power_zones import PowerZones
+from pywhooshconnect.common.model.power_zones import PowerZones
 
 
 @pytest.fixture

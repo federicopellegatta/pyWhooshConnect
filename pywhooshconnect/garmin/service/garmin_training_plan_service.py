@@ -1,9 +1,15 @@
 from datetime import date, datetime, timedelta
 
-from src.garmin.client.GarminClient import GarminClient, parse_datetime, parse_date
-from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
-from src.garmin.model.garmin_scheduled_workout_dto import GarminScheduledWorkout
-from src.garmin.model.garmin_workout_dto import GarminSport
+from pywhooshconnect.garmin.client.GarminClient import (
+    GarminClient,
+    parse_datetime,
+    parse_date,
+)
+from pywhooshconnect.garmin.model.garmin_power_zones_dto import GarminPowerZones
+from pywhooshconnect.garmin.model.garmin_scheduled_workout_dto import (
+    GarminScheduledWorkout,
+)
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport
 
 
 class GarminTrainingPlanService:

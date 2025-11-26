@@ -3,7 +3,7 @@ from typing import Any, List
 
 from garminconnect import Garmin
 
-from src.garmin.model.garmin_workout_dto import GarminSport
+from pywhooshconnect.garmin.model.garmin_workout_dto import GarminSport
 
 
 def parse_datetime(date_str: str) -> datetime | None:

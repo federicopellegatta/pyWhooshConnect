@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.mywhoosh.mapper.power_zones_config import (
+from pywhooshconnect.mywhoosh.mapper.power_zones_config import (
     PowerZoneConfig,
     PowerZoneConfigurationError,
 )

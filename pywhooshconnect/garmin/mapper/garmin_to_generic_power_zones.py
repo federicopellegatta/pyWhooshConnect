@@ -1,8 +1,8 @@
 from typing import Optional
 
-from src.common.mapper.base import BaseMapper, MapperOptions
-from src.common.model.power_zones import PowerZones
-from src.garmin.model.garmin_power_zones_dto import GarminPowerZones
+from pywhooshconnect.common.mapper.base import BaseMapper, MapperOptions
+from pywhooshconnect.common.model.power_zones import PowerZones
+from pywhooshconnect.garmin.model.garmin_power_zones_dto import GarminPowerZones
 
 
 def _calculate_zone_floor(zone: int, garmin: GarminPowerZones):
