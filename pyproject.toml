@@ -12,7 +12,7 @@ name = "pywhooshconnect"
 version = "0.1.0"
 description = "Sync your workouts from Garmin to MyWhoosh"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license-files = ["LICEN[CS]E*"]
 authors = [
     { name = "Federico Pellegatta", email = "pellegatta.federico@gmail.com" }
