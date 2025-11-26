@@ -16,11 +16,12 @@ configuration of power zones and workout parameters through YAML configuration f
 
 ## Installation
 
-**Requirements:** Python 3.8+ (tested with Python 3.13)
+**Requirements:** Compatible with Python 3.10–3.13
 
 ### For Users
 
 Install directly from PyPI:
+
 ```bash
 pip install pywhooshconnect
 ```
@@ -28,6 +29,7 @@ pip install pywhooshconnect
 ### For Contributors
 
 Clone the repository and install in development mode:
+
 ```bash
 git clone https://github.com/federicopellegatta/pyWhooshConnect.git
 cd pyWhooshConnect
