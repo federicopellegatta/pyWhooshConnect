@@ -27,7 +27,6 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-
 dependencies = [
     "garminconnect>=0.2.30",
     "pydantic",
@@ -36,7 +35,6 @@ dependencies = [
     "python-dotenv",
 ]
 
-# Dipendenze da requirements-dev.txt
 [project.optional-dependencies]
 dev = [
     "pytest",
